@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  front:
+    container_name: Front_Cash_Manager
+    build:
+      context: ./Front_Cash_Manager
+      dockerfile: Dockerfile
+    volumes:
+      - ./vueproject:/app
+      - /app/node_modules
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kotlin
+
+  phoenix:
+    container_name: Back_Cash_Manager
+    build:
+      context: ./Back_Cash_Manager
+      dockerfile: Dockerfile
+    volumes:
+      - ./timesmanager:/app
+      - /app/deps
+      - /app/_build
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_HOST
+      - MIX_ENV
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_PORT
+  db:
+    container_name: postgres_container
+    image: postgres:13
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_HOST
+      - MIX_ENV
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_PORT
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
