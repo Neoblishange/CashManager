@@ -5,4 +5,8 @@ public class Main {
         System.out.println("Hello salut!");
 
     }
+
+    public int exampleAdd(int a, int b) {
+        return a + b;
+    }
 }
