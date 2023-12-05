@@ -14,5 +14,7 @@ object Strings {
     const val TOTAL_PAYOUT_BODY = "Vous devez "
     const val TOTAL_PAYOUT_DEVICE = "€"
     const val TOTAL_PAYOUT_CHOICE_SYSTEM = "Séléctionnez un moyen de paiement"
+    const val TOTAL_PAYOUT_CHOICE_SYSTEM_CARD = "Paiement par carte"
+    const val TOTAL_PAYOUT_CHOICE_SYSTEM_QR = "Paiement par chèque"
 
 }

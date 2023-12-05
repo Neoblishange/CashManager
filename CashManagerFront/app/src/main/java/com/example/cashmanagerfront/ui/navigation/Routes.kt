@@ -1,4 +1,4 @@
-package com.example.cashmanagerfront.ui.screens
+package com.example.cashmanagerfront.ui.navigation
 
 object Routes {
 
