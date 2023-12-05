@@ -12,7 +12,7 @@ object Strings {
 
     // TOTAL_PAYOUT_SCREEN
     const val TOTAL_PAYOUT_BODY = "Vous devez "
-    const val TOTAL_PAYOUT_DEVICE = "€"
+    const val TOTAL_PAYOUT_CURRENCY = "€"
     const val TOTAL_PAYOUT_CHOICE_SYSTEM = "Sélectionnez un moyen de paiement"
     const val TOTAL_PAYOUT_CHOICE_SYSTEM_CARD = "Paiement par carte"
     const val TOTAL_PAYOUT_CHOICE_SYSTEM_QR = "Paiement par chèque"

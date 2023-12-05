@@ -53,7 +53,7 @@ fun TotalPayoutScreen(navController: NavHostController) {
                     text = Strings.TOTAL_PAYOUT_BODY
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "30 " + Strings.TOTAL_PAYOUT_DEVICE)
+                Text(text = "30 " + Strings.TOTAL_PAYOUT_CURRENCY)
                 Spacer(modifier = Modifier.height(50.dp))
                 Text(
                     text = Strings.TOTAL_PAYOUT_CHOICE_SYSTEM
