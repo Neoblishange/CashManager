@@ -1,6 +1,7 @@
 package com.cash.back_cash_manager.controllers;
 
 import com.cash.back_cash_manager.config.JsonResponse;
+import com.cash.back_cash_manager.dto.UserDTO;
 import com.cash.back_cash_manager.entities.User;
 import com.cash.back_cash_manager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,10 @@ public class UsersController {
     private UserService userService;
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<User> users(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDTO> users(@PathVariable("id") Long id) {
         User user = userService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        UserDTO userDTO = userService.convertUser(user);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -29,30 +31,18 @@ public class UsersController {
     @PutMapping(path = "{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody User updatedUser) {
         userService.updateUser(id, updatedUser);
-        return new ResponseEntity<>(new JsonResponse("Your account has been created"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new JsonResponse("Your account has been updated"), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         User user = userService.getUserById(id);
+        userService.deleteUser(user);
         return new ResponseEntity<>(new JsonResponse("Your account has been deleted"), HttpStatus.OK);
     }
-
-/*
+    /*
     @PostMapping("/login")
     public ResponseEntity<Object> login() {
-        JsonResponse response = new JsonResponse("test");
-        return ResponseEntity.ok().body(response);
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<Object> update() {
-        JsonResponse response = new JsonResponse("test");
-        return ResponseEntity.ok().body(response);
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<Object> delete() {
         JsonResponse response = new JsonResponse("test");
         return ResponseEntity.ok().body(response);
     }*/

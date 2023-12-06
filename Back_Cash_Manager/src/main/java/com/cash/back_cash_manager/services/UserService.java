@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements DTO {
     @Autowired
     private UserRepository userRepository;
 
@@ -50,7 +50,7 @@ public class UserService {
 
     public void deleteUser(User user) {
         Optional<User> optionalUser = userRepository.findByName(user.getName());
-        if(optionalUser.isPresent()) {
+        if(optionalUser.isEmpty()) {
             throw new IllegalArgumentException();
         }
         userRepository.delete(user);
