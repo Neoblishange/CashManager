@@ -13,9 +13,9 @@ import com.example.cashmanagerfront.R
 import com.example.cashmanagerfront.ui.theme.DARK_BLUE
 
 @Composable
-fun CustomText(text: String, color: Color = DARK_BLUE, size: TextUnit = 22.sp, fontWeight: FontWeight = FontWeight.Bold) {
+fun CustomText(text: String, color: Color = DARK_BLUE, size: TextUnit = 22.sp, fontWeight: FontWeight = FontWeight.Normal, textAlign: TextAlign = TextAlign.Center) {
     val font = FontFamily(
-        Font(R.font.stray_cloud, FontWeight.Normal)
+        Font(R.font.mermaid1001, FontWeight.Normal)
     )
 
     Text(
@@ -24,6 +24,6 @@ fun CustomText(text: String, color: Color = DARK_BLUE, size: TextUnit = 22.sp, f
         fontFamily = font,
         fontSize = size,
         fontWeight = fontWeight,
-        textAlign = TextAlign.Center
+        textAlign = textAlign
     )
 }

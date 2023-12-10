@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.cashmanagerfront.ui.screens.PayoutNFCScreen
+import com.example.cashmanagerfront.ui.screens.PayoutQRScreen
 import com.example.cashmanagerfront.ui.screens.SplashScreen
 import com.example.cashmanagerfront.ui.screens.TotalPayoutScreen
 import com.example.cashmanagerfront.ui.screens.WelcomeScreen
@@ -23,6 +25,14 @@ fun CashManagerNavigationGraph() {
 
         composable(Routes.TOTAL_PAYOUT_SCREEN) {
             TotalPayoutScreen(navController)
+        }
+
+        composable(Routes.PAYOUT_NFC_SCREEN) {
+            PayoutNFCScreen(navController)
+        }
+
+        composable(Routes.PAYOUT_QR_SCREEN) {
+            PayoutQRScreen(navController)
         }
     }
 }

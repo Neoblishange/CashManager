@@ -33,7 +33,7 @@ private val LightColorPalette = lightColors(
 )
 
 val customFontFamily = FontFamily(
-    Font(R.font.stray_cloud, FontWeight.Normal),
+    Font(R.font.mermaid1001, FontWeight.Normal),
    )
 
 val typography = Typography(

@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -71,7 +72,7 @@ fun SplashScreen(navController: NavController) {
                         contentDescription = "logo"
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-                    CustomText(text = Strings.APP_TITLE, size = 24.sp)
+                    CustomText(text = Strings.APP_TITLE, size = 24.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
