@@ -27,6 +27,7 @@ import com.example.cashmanagerfront.ui.screens.widgets.BackgroundApp
 import com.example.cashmanagerfront.ui.screens.widgets.CustomText
 import com.example.cashmanagerfront.ui.theme.DARK_GREEN_BUBBLE
 import com.example.cashmanagerfront.ui.theme.GREEN_BUBBLE
+import com.example.cashmanagerfront.ui.theme.LIGHT_GREEN_BUBBLE
 import com.example.cashmanagerfront.ui.utils.Strings
 import innerShadow
 import kotlinx.coroutines.delay
@@ -60,7 +61,7 @@ fun SplashScreen(navController: NavController) {
                     .clip(shape = CircleShape)
                     .background(GREEN_BUBBLE)
                     .innerShadow(
-                        color = DARK_GREEN_BUBBLE,
+                        color = LIGHT_GREEN_BUBBLE,
                         cornersRadius = 400.dp,
                         spread = 10.dp,
                         blur = 2.dp
