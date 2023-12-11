@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.cashmanagerfront.domain.usecase.model.Article
+import java.util.Locale
 
 @Composable
 fun ShopPage1(navController: NavController) {
@@ -45,6 +46,15 @@ fun ShopPage1(navController: NavController) {
         Article("Lait", 34.99),
         Article("Levure", 24.99)
     ) }
+
+    fun getTotal(): Double {
+        var total = 0.0
+        for (article in articlesList){
+            total +=  (article.quantity.value * article.price)
+
+        }
+        return total
+    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -96,7 +106,11 @@ fun ShopPage1(navController: NavController) {
                     }
                 }
 
-            // Ajout du bouton en bas
+            totalComponent(
+                total = "Your total is: "+ String.format(Locale.US, "%.2f", getTotal()) ,
+
+            )
+            println(getTotal())
             Button(
                 onClick = {
                 },
@@ -108,11 +122,35 @@ fun ShopPage1(navController: NavController) {
                 Text("Valider")
             }
 
+
         }
     }
 
 }
 
+
+@Composable
+fun totalComponent(
+    total: String,
+    welcomeTextSize: TextUnit = 20.sp,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(100.dp)
+            .background(Color.White)
+            .padding(10.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = total,
+            style = MaterialTheme.typography.h4.copy(fontSize = welcomeTextSize)
+
+        )
+    }
+
+}
 
 
 @Composable
