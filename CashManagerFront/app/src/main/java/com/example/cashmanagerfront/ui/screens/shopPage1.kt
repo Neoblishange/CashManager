@@ -1,10 +1,5 @@
 package com.example.cashmanagerfront.ui.screens
 
-import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,56 +19,72 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.cashmanagerfront.domain.usecase.model.Article
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun ShopPage1(navController: NavController) {
 
-    val articlesList = remember { mutableStateOf(
-        listOf(
-            Article("Farine", 19.99),
-            Article("Confiture", 29.99),
-            Article("Sucre", 14.99),
-            Article("Fraises", 16.99),
-            Article("Sel", 4.99),
-            Article("Lait", 34.99),
-            Article("Levure", 24.99)
-        )
+    val articlesList = remember { mutableStateListOf(
+        Article("Farine", 19.99),
+        Article("Confiture", 29.99),
+        Article("Sucre", 14.99),
+        Article("Fraises", 16.99),
+        Article("Sel", 4.99),
+        Article("Lait", 34.99),
+        Article("Levure", 24.99)
     ) }
 
     Surface(modifier = Modifier.fillMaxSize()) {
-
-
         Column {
             TitleComponent(
                 welcomeText = "Welcome Sofiane!,",
                 selectArticlesText = "Voici notre selection d'article :"
             )
             LazyColumn {
-                items(articlesList.value.size) { index ->
-                    ArticleItem(
-                        article = articlesList.value[index],
-                        onAddClick = {
-                            articlesList.value[index].quantity++
-                        },
-                        onRemoveClick = {
-                            if (articlesList.value[index].quantity > 0) {
-                                articlesList.value[index].quantity--
+                items(articlesList.size) { index ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White)
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = articlesList[index].name, style = MaterialTheme.typography.body1)
+                        Text(text = "${articlesList[index].price}" + "€", style = MaterialTheme.typography.caption)
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            IconButton(onClick = {
+                                if (index != -1) {
+                                    articlesList[index].quantity.value -= 1
+                                }
+                            }) {
+                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
+                            }
+
+                            Text(text = "${articlesList[index].quantity.value}")
+
+                            IconButton(onClick = {
+                                if (index != -1) {
+                                    articlesList[index].quantity.value += 1
+
+                                }
+                            }) {
+                                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
                             }
                         }
-                    )
+                    }
                 }
             }
 
@@ -110,50 +121,4 @@ fun TitleComponent(
     }
 
 }
-
-
-@Composable
-fun ArticleItem(article: Article, onAddClick: () -> Unit, onRemoveClick: () -> Unit) {
-    var curretQuantity = remember {
-        mutableStateOf(article.quantity)
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = article.name, style = MaterialTheme.typography.body1)
-        Text(text = "${article.price}" + "€", style = MaterialTheme.typography.caption)
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            IconButton(onClick = {
-                article.quantity -= 1
-                println(article.quantity)
-
-            }) {
-
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
-            }
-            println(article.quantity)
-            Text(text = "${curretQuantity}")
-            IconButton(onClick = {
-               article.quantity += 1
-                println(article.quantity)
-
-
-            }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-            }
-        }
-    }
-
-
-}
-
 

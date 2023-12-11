@@ -1,3 +1,6 @@
 package com.example.cashmanagerfront.domain.usecase.model
 
-data class Article(val name: String, val price: Double, var quantity: Int =0)
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+
+data class Article(val name: String, val price: Double,  val quantity: MutableState<Int> = mutableStateOf(0))
