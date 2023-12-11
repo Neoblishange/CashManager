@@ -70,8 +70,7 @@ fun ShopPage1(navController: NavController) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White)
-                            .padding(16.dp),
+                            .background(Color.White),
 
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
@@ -116,7 +115,6 @@ fun ShopPage1(navController: NavController) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp) ,
 
             ) {
                 Text("Valider")
@@ -137,9 +135,7 @@ fun totalComponent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(100.dp)
-            .background(Color.White)
-            .padding(10.dp),
+            .background(Color.White),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
@@ -163,9 +159,7 @@ fun TitleComponent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(100.dp)
-            .background(Color.White)
-            .padding(10.dp),
+            .background(Color.White),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
