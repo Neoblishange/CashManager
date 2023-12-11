@@ -1,14 +1,9 @@
-package com.example.cashmanagerfront.ui.screens
+package com.example.cashmanagerfront.ui.screens.NFC
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.nfc.NfcAdapter
-import android.nfc.Tag
-import android.nfc.tech.IsoDep
-import android.nfc.tech.MifareClassic
-import android.nfc.tech.Ndef
-import android.nfc.tech.NdefFormatable
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +25,7 @@ import com.example.cashmanagerfront.ui.utils.Strings
 import android.provider.Settings
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 
@@ -44,6 +40,11 @@ fun PayoutNFCScreen(navController: NavHostController, total: String = "90") {
     ) {
         LaunchedEffect(key1 = true) {
             isNfcAvailable(context, nfcAdapter)
+        }
+        DisposableEffect(key1 = nfcAdapter) {
+            onDispose {
+                stopNfcScanner(context, nfcAdapter)
+            }
         }
         BackgroundApp()
         AppBarWidget(
@@ -70,14 +71,7 @@ fun PayoutNFCScreen(navController: NavHostController, total: String = "90") {
                 size = 40.sp
             )
             TextButton(onClick = {
-                isNfcAvailable(context, nfcAdapter)
-                val yourTagCallback = YourTagCallback()
-                nfcAdapter?.enableReaderMode(context as Activity?, yourTagCallback, NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK, null)
-            }) {
-                Text(text = "start nfc scan", color = Color.White)
-            }
-            TextButton(onClick = {
-                nfcAdapter?.disableReaderMode(context as Activity?)
+                stopNfcScanner(context, nfcAdapter)
             }) {
                 Text(text = "stop nfc scan", color = Color.White)
             }
@@ -89,49 +83,23 @@ fun PayoutNFCScreen(navController: NavHostController, total: String = "90") {
 
 fun isNfcAvailable(context: Context, nfcAdapter: NfcAdapter) {
     if (nfcAdapter != null && nfcAdapter.isEnabled) {
-        println("if")
+        startNfcScanner(context, nfcAdapter)
     } else {
-        println("else")
         val intent = Intent(Settings.ACTION_NFC_SETTINGS)
         context.startActivity(intent)
     }
 }
 
-class YourTagCallback : NfcAdapter.ReaderCallback {
-    override fun onTagDiscovered(tag: Tag?) {
-        println("onTagDiscovered")
-        tag?.let {
-            val mifareClassic = MifareClassic.get(it)
-            println("mifare ------> ${mifareClassic }")
+fun startNfcScanner(context: Context, nfcAdapter: NfcAdapter) {
+    val nfcCallback = NFCCallback()
+    nfcAdapter?.enableReaderMode(
+        context as Activity?,
+        nfcCallback,
+        NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
+        null
+    )
+}
 
-            mifareClassic?.let { mifare ->
-                mifare.connect()
-
-                val sectorCount = mifare.sectorCount
-                println("sectorCount ------> $sectorCount")
-
-                println("mifare tag -------> ${mifare.tag} ")
-                println("mifare sectorCount -------> ${mifare.sectorCount} ")
-                println("mifare size -------> ${mifare.size} ")
-                println("mifare isConnected -------> ${mifare.isConnected} ")
-                println("mifare blockCount -------> ${mifare.blockCount} ")
-                for (sectorIndex in 0 until sectorCount) {
-                    if (mifare.authenticateSectorWithKeyA(sectorIndex, MifareClassic.KEY_DEFAULT)) {
-                        val blockCount = mifare.getBlockCountInSector(sectorIndex)
-                        val startBlock = mifare.sectorToBlock(sectorIndex)
-                        val endBlock = startBlock + blockCount
-
-                        for (blockIndex in startBlock until endBlock) {
-                            val data = mifare.readBlock(blockIndex)
-                            val bytesData = String(data)
-                            println("bytesData ------> $bytesData")
-                            println("Données lues depuis le bloc $blockIndex : ${data.contentToString()}")
-                        }
-                    }
-                }
-                mifare.close()
-            }
-        }
-
-    }
+fun stopNfcScanner(context: Context, nfcAdapter: NfcAdapter) {
+    nfcAdapter?.disableReaderMode(context as Activity?)
 }

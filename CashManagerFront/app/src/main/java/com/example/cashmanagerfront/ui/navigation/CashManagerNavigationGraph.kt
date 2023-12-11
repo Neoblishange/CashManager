@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.cashmanagerfront.ui.screens.PayoutNFCScreen
+import com.example.cashmanagerfront.ui.screens.NFC.PayoutNFCScreen
 import com.example.cashmanagerfront.ui.screens.PayoutQRScreen
 import com.example.cashmanagerfront.ui.screens.SplashScreen
 import com.example.cashmanagerfront.ui.screens.TotalPayoutScreen
