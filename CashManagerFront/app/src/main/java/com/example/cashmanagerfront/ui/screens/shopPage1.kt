@@ -4,11 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -43,57 +47,73 @@ fun ShopPage1(navController: NavController) {
     ) }
 
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column {
+
+        Column(  modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+        )  {
             TitleComponent(
                 welcomeText = "Welcome Sofiane!,",
                 selectArticlesText = "Voici notre selection d'article :"
             )
-            LazyColumn {
-                items(articlesList.size) { index ->
+                for ( article in articlesList) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.White)
                             .padding(16.dp),
+
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = articlesList[index].name, style = MaterialTheme.typography.body1)
-                        Text(text = "${articlesList[index].price}" + "€", style = MaterialTheme.typography.caption)
+                        Text(text = article.name, style = MaterialTheme.typography.body1)
+                        Text(text = "${article.price}" + "€", style = MaterialTheme.typography.caption)
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             IconButton(onClick = {
-                                if (index != -1) {
-                                    if (articlesList[index].quantity.value > 0)
-                                    articlesList[index].quantity.value -= 1
-                                }
+                                    if (article.quantity.value > 0)
+                                        article.quantity.value -= 1
+
                             }) {
                                 Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
                             }
 
-                            Text(text = "${articlesList[index].quantity.value}")
+                            Text(text = "${article.quantity.value}")
 
                             IconButton(onClick = {
-                                if (index != -1) {
-                                    if (articlesList[index].quantity.value <50)
-                                    articlesList[index].quantity.value += 1
+                                    if (article.quantity.value <50)
+                                        article.quantity.value += 1
 
-                                }
+
                             }) {
                                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
                             }
                         }
+
                     }
                 }
+
+            // Ajout du bouton en bas
+            Button(
+                onClick = {
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp) ,
+
+            ) {
+                Text("Valider")
             }
 
         }
     }
 
 }
+
+
 
 @Composable
 fun TitleComponent(
