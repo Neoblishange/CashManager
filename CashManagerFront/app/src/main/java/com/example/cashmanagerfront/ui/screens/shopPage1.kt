@@ -67,6 +67,7 @@ fun ShopPage1(navController: NavController) {
                         ) {
                             IconButton(onClick = {
                                 if (index != -1) {
+                                    if (articlesList[index].quantity.value > 0)
                                     articlesList[index].quantity.value -= 1
                                 }
                             }) {
@@ -77,6 +78,7 @@ fun ShopPage1(navController: NavController) {
 
                             IconButton(onClick = {
                                 if (index != -1) {
+                                    if (articlesList[index].quantity.value <50)
                                     articlesList[index].quantity.value += 1
 
                                 }
