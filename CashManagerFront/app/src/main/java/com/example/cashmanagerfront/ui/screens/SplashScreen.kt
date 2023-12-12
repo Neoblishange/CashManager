@@ -41,7 +41,7 @@ fun SplashScreen(navController: NavController) {
         LaunchedEffect(key1 = true) {
             coroutineScope.launch {
                 delay(4000)
-                navController.navigate(Routes.TOTAL_PAYOUT_SCREEN) {
+                navController.navigate(Routes.SHOP_SCREEN) {
                     popUpTo(Routes.SPLASH_SCREEN) {
                         inclusive = true
                     }
