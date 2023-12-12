@@ -1,45 +1,58 @@
 package com.example.cashmanagerfront.ui.screens.widgets
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.cashmanagerfront.R
+import com.example.cashmanagerfront.ui.theme.DARK_BLUE
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBarWidget(navController: NavHostController, title: String, showIcon: Boolean, child: @Composable () -> Unit) {
+fun AppBarWidget(
+    navController: NavHostController,
+    title: String,
+    showBackArrow: Boolean,
+    showIcon: Boolean
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.arrowleft1_1),
+            contentDescription = "back",
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .clickable(enabled = showBackArrow) { navController.popBackStack() },
+            tint = if (showBackArrow) Color.White else Color.Transparent
+        )
 
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = { Text(
-                        text = title) },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
-                    ),
-                )
-            },
-        ) {
-                innerPadding ->
-            Surface (
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                child()
-            }
-        }
+        Spacer(modifier = Modifier.weight(1f))
 
+        CustomText(
+            text = title,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_settings_24),
+            contentDescription = "settings",
+            tint = if (showIcon) DARK_BLUE else Color.Transparent,
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .clickable(enabled = showIcon) { }
+        )
+    }
 }
