@@ -1,7 +1,6 @@
 package com.cash.back_cash_manager.services;
 
 import com.cash.back_cash_manager.entities.Account;
-import com.cash.back_cash_manager.entities.User;
 import com.cash.back_cash_manager.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +28,17 @@ public class AccountService {
             throw new IllegalArgumentException();
         }
         accountRepository.save(account);
+    }
+
+    public void updateAccount(long id,Account updatedAccount) {
+        Optional<Account> account = accountRepository.findById(id);
+        if(account.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        Account accountFromDB = account.get();
+        if(!accountFromDB.getAmount().equals(updatedAccount.getAmount())) {
+            accountFromDB.setAmount(updatedAccount.getAmount());
+        }
+        accountRepository.save(accountFromDB);
     }
 }

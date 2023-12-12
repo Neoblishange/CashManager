@@ -1,14 +1,13 @@
 package com.cash.back_cash_manager.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 @Table(name = "transactions")
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 public class Transaction {
     @Id
@@ -18,5 +17,10 @@ public class Transaction {
     @JoinColumn(name = "accountId", nullable = false)
     public Account account;
     @Column(name = "amount")
-    private Float amount;
+    private BigDecimal amount;
+
+    public Transaction(Account account, BigDecimal amount) {
+        this.account = account;
+        this.amount = amount;
+    }
 }
