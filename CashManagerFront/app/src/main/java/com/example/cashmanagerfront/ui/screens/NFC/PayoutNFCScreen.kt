@@ -27,19 +27,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun PayoutNFCScreen(navController: NavHostController, total: String = "90") {
+fun PayoutNFCScreen(navController: NavHostController, total: String) {
     val context: Context = LocalContext.current
     val nfcAdapter = NfcAdapter.getDefaultAdapter(context)
+    val stateOfPaiement = remember {
+        mutableStateOf(StateOfPaiement.INITIAL)
+    }
+
+    val accountNumber: MutableState<String> = remember { mutableStateOf("") }
 
     Surface(
         modifier = Modifier
             .fillMaxSize(),
     ) {
         LaunchedEffect(key1 = true) {
-            isNfcAvailable(context, nfcAdapter)
+            isNfcAvailable(context, nfcAdapter, stateOfPaiement, accountNumber)
         }
         DisposableEffect(key1 = nfcAdapter) {
             onDispose {
@@ -70,29 +78,32 @@ fun PayoutNFCScreen(navController: NavHostController, total: String = "90") {
                 color = Color.White,
                 size = 40.sp
             )
-            TextButton(onClick = {
-                stopNfcScanner(context, nfcAdapter)
-            }) {
-                Text(text = "stop nfc scan", color = Color.White)
+            Spacer(modifier = Modifier.height(50.dp))
+
+            CustomText(text = stateOfPaiement.value.state, color = Color.White)
+
+            if (stateOfPaiement.value.state == StateOfPaiement.PENDING.state) {
+                CustomText(text = accountNumber.value, color = Color.White)
             }
+
             Spacer(modifier = Modifier.weight(1f))
         }
 
     }
 }
 
-fun isNfcAvailable(context: Context, nfcAdapter: NfcAdapter) {
-    if (nfcAdapter != null && nfcAdapter.isEnabled) {
-        startNfcScanner(context, nfcAdapter)
+fun isNfcAvailable(context: Context, nfcAdapter: NfcAdapter, stateOfPaiement: MutableState<StateOfPaiement>, accountNumber: MutableState<String>) {
+    if (nfcAdapter.isEnabled) {
+        startNfcScanner(context, nfcAdapter, stateOfPaiement, accountNumber)
     } else {
         val intent = Intent(Settings.ACTION_NFC_SETTINGS)
         context.startActivity(intent)
     }
 }
 
-fun startNfcScanner(context: Context, nfcAdapter: NfcAdapter) {
-    val nfcCallback = NFCCallback()
-    nfcAdapter?.enableReaderMode(
+fun startNfcScanner(context: Context, nfcAdapter: NfcAdapter, stateOfPaiement: MutableState<StateOfPaiement>, accountNumber: MutableState<String>) {
+    val nfcCallback = NFCCallback(stateOfPaiement, accountNumber)
+    nfcAdapter.enableReaderMode(
         context as Activity?,
         nfcCallback,
         NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK,
@@ -101,5 +112,5 @@ fun startNfcScanner(context: Context, nfcAdapter: NfcAdapter) {
 }
 
 fun stopNfcScanner(context: Context, nfcAdapter: NfcAdapter) {
-    nfcAdapter?.disableReaderMode(context as Activity?)
+    nfcAdapter.disableReaderMode(context as Activity?)
 }

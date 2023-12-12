@@ -3,14 +3,39 @@ package com.example.cashmanagerfront.ui.screens.NFC
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.MifareClassic
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.ReadOnlyComposable
+import com.example.cashmanagerfront.ui.utils.Strings
 import org.json.JSONArray
 import org.json.JSONObject
 
-class NFCCallback : NfcAdapter.ReaderCallback {
+enum class StateOfPaiement {
+    INITIAL,
+    PENDING,
+    PENDING_DATA,
+    ACCEPTED,
+    REFUSED;
+
+    val state: String
+        @Composable
+        @ReadOnlyComposable
+        get() = when(this) {
+            INITIAL -> Strings.NFC_INITIAL
+            PENDING -> Strings.NFC_PENDING
+            PENDING_DATA -> Strings.NFC_PENDING_DATA
+            ACCEPTED -> Strings.NFC_ACCEPTED
+            REFUSED -> Strings.NFC_REFUSED
+        }
+}
+
+class NFCCallback(private val stateOfPaiement: MutableState<StateOfPaiement>, private var numberAccount: MutableState<String>) : NfcAdapter.ReaderCallback {
+
     override fun onTagDiscovered(tag: Tag?) {
         tag?.let {
             val mifareClassic = MifareClassic.get(it)
-            var jsonArray = JSONArray()
+            val jsonArray = JSONArray()
+            stateOfPaiement.value = StateOfPaiement.PENDING_DATA
 
             mifareClassic?.let { mifare ->
                 mifare.connect()
@@ -35,6 +60,8 @@ class NFCCallback : NfcAdapter.ReaderCallback {
 
                 cleanJSONArray(jsonArray)
                 val account = getAccountNumberFromJsonArray(jsonArray)
+                stateOfPaiement.value = StateOfPaiement.PENDING
+                numberAccount.value = account
 
                 println("account number ------> $account")
                 mifare.close()
