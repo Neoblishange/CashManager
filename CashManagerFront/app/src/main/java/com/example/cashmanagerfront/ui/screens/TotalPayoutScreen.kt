@@ -1,5 +1,6 @@
 package com.example.cashmanagerfront.ui.screens
 
+import android.provider.ContactsContract
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +36,8 @@ import com.example.cashmanagerfront.ui.screens.widgets.CustomText
 import com.example.cashmanagerfront.ui.utils.Strings
 
 @Composable
-fun TotalPayoutScreen(navController: NavHostController, total: String = "90") {
+fun TotalPayoutScreen(navController: NavHostController, total: String ) {
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -126,10 +128,4 @@ fun TotalPayoutScreen(navController: NavHostController, total: String = "90") {
         }
 
     }
-}
-
-@Preview
-@Composable
-fun TotalPayoutScreenPreview() {
-    TotalPayoutScreen(rememberNavController())
 }

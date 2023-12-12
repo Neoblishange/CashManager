@@ -28,8 +28,9 @@ fun CashManagerNavigationGraph() {
             SplashScreen(navController)
         }
 
-        composable(Routes.TOTAL_PAYOUT_SCREEN) {
-            TotalPayoutScreen(navController)
+        composable(Routes.TOTAL_PAYOUT_SCREEN) { backStackEntry ->
+            val total = backStackEntry.arguments?.getString("total") ?: "0"
+            TotalPayoutScreen(navController, total)
         }
 
         composable(Routes.PAYOUT_NFC_SCREEN) {

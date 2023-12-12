@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.cashmanagerfront.domain.usecase.model.Article
+import com.example.cashmanagerfront.ui.navigation.Routes
 import java.util.Locale
 
 @Composable
@@ -112,9 +113,12 @@ fun ShopPage1(navController: NavController) {
             println(getTotal())
             Button(
                 onClick = {
+                    var total = getTotal().toString()
+                    navController.navigate("${Routes.TOTAL_PAYOUT_SCREEN.replace("{total}", total)}")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
+
 
             ) {
                 Text("Valider")
