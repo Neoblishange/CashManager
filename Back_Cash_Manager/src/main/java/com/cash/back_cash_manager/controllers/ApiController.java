@@ -15,6 +15,3 @@ public class ApiController {
         return ResponseEntity.ok().body(response);
     }
 }
-
-//mvn clean install
-//java -jar .\target\Back_Cash_Manager-0.0.1-SNAPSHOT.jar
