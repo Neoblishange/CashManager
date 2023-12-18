@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -63,17 +64,17 @@ fun PayoutQRScreen(navController: NavHostController, total: String) {
             .fillMaxSize()
     ) {
         BackgroundApp()
-        qrCodeScannerComposeTheme()
-        AppBarWidget(
-            navController = navController,
-            title = Strings.APP_BAR_PAYOUT_QR,
-            showBackArrow = true,
-            showIcon = false
-        )
+
         Column(
             modifier = Modifier.fillMaxSize().padding(15.dp),
             horizontalAlignment = CenterHorizontally
         ) {
+            AppBarWidget(
+                navController = navController,
+                title = Strings.APP_BAR_PAYOUT_QR,
+                showBackArrow = true,
+                showIcon = false
+            )
             Spacer(modifier = Modifier.weight(1f))
             CustomText(
                 text = Strings.TOTAL_PAYOUT_BODY, size = 26.sp, color = Color.White
@@ -85,7 +86,8 @@ fun PayoutQRScreen(navController: NavHostController, total: String) {
                 color = Color.White,
                 size = 40.sp
             )
-
+            Spacer(modifier = Modifier.weight(1f))
+            qrCodeScannerComposeTheme()
             Spacer(modifier = Modifier.weight(1f))
         }
 
@@ -161,7 +163,7 @@ fun qrCodeScannerComposeTheme(){
                     previewView
             },
                modifier = Modifier
-                   .weight(1f)
+                   .width(250.dp).height(250.dp).align(alignment = Alignment.CenterHorizontally)
                 )
             Text(text = code,
                 fontSize = 20.sp,

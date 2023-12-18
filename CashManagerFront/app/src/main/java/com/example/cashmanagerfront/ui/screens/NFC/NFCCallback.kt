@@ -100,12 +100,13 @@ private fun cleanJSONArray(jsonArray: JSONArray) {
 
 private fun getAccountNumberFromJsonArray(jsonArray: JSONArray): String {
     val stringBuilder = StringBuilder()
+    val regex = Regex("[0-9]")
 
     for (i in 0 until jsonArray.length()) {
         val obj = jsonArray.getJSONObject(i)
         val dataValue = obj.optString("data")
 
-        if (dataValue.contains("00")) {
+        if (regex.containsMatchIn(dataValue)) {
             stringBuilder.append(dataValue)
         }
     }
