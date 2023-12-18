@@ -1,26 +1,26 @@
 package com.cash.back_cash_manager.entities;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.text.DateFormat;
+import java.math.BigDecimal;
 
-@Table(name = "transaction")
+@Table(name = "transactions")
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "account_number", unique = true)
-    private String account_number;
+    @ManyToOne
+    @JoinColumn(name = "accountId", nullable = false)
+    public Account account;
     @Column(name = "amount")
-    private String amount;
-    @Column(name = "date")
-    private DateFormat date;
+    private BigDecimal amount;
+
+    public Transaction(Account account, BigDecimal amount) {
+        this.account = account;
+        this.amount = amount;
+    }
 }
