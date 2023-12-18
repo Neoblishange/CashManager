@@ -50,9 +50,10 @@ fun TotalPayoutScreen(navController: NavHostController, total: String ) {
             showIcon = false
         )
         Column(
-            modifier = Modifier.fillMaxSize().padding(15.dp) ,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp),
             horizontalAlignment = CenterHorizontally
-
         ) {
             Spacer(modifier = Modifier.weight(1f))
             CustomText(
@@ -85,7 +86,7 @@ fun TotalPayoutScreen(navController: NavHostController, total: String ) {
                         .height(150.dp)
                         .width(150.dp)
                         .clickable {
-                            navController.navigate(Routes.PAYOUT_NFC_SCREEN)
+                            navController.navigate(Routes.PAYOUT_NFC_SCREEN.replace("{total}", total))
                         }
                 ) {
                     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {
@@ -107,7 +108,7 @@ fun TotalPayoutScreen(navController: NavHostController, total: String ) {
                         .height(150.dp)
                         .width(150.dp)
                         .clickable {
-                            navController.navigate(Routes.PAYOUT_QR_SCREEN)
+                            navController.navigate("${Routes.PAYOUT_QR_SCREEN.replace("{total}", total)}")
                         }
                 ) {
                     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = CenterHorizontally, verticalArrangement = Arrangement.SpaceEvenly) {

@@ -27,6 +27,10 @@ public class TransactionService {
         return transaction.get();
     }
 
+    public void createTransaction(Transaction transaction) {
+        transactionRepository.save(transaction);
+    }
+
     public List<Transaction> getTransactionsByAccountNumber(int accountNumber) {
         Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
         if(account.isEmpty()) {

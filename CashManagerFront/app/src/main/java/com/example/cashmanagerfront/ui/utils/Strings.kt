@@ -21,4 +21,10 @@ object Strings {
     const val TOTAL_PAYOUT_CHOICE_SYSTEM_CARD = "Sans contact"
     const val TOTAL_PAYOUT_CHOICE_SYSTEM_QR = "Chèque"
 
+    // PAYOUT_NFC_SCREEN
+    const val NFC_INITIAL = "Merci de présentez votre carte"
+    const val NFC_PENDING_DATA = "Récupération des données"
+    const val NFC_PENDING = "Autorisation en cours. Veuillez patienter"
+    const val NFC_ACCEPTED = "Paiement accepté"
+    const val NFC_REFUSED = "Paiement refusé, veuillez réessayé"
 }

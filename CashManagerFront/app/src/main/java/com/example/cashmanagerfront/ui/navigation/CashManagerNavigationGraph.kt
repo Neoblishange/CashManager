@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cashmanagerfront.ui.screens.ShopPage1
-import com.example.cashmanagerfront.ui.screens.PayoutNFCScreen
+import com.example.cashmanagerfront.ui.screens.NFC.PayoutNFCScreen
 import com.example.cashmanagerfront.ui.screens.PayoutQRScreen
 import com.example.cashmanagerfront.ui.screens.SplashScreen
 import com.example.cashmanagerfront.ui.screens.TotalPayoutScreen
@@ -33,12 +33,14 @@ fun CashManagerNavigationGraph() {
             TotalPayoutScreen(navController, total)
         }
 
-        composable(Routes.PAYOUT_NFC_SCREEN) {
-            PayoutNFCScreen(navController)
+        composable(Routes.PAYOUT_NFC_SCREEN) { backStackEntry ->
+            val total = backStackEntry.arguments?.getString("total") ?: "0"
+            PayoutNFCScreen(navController, total)
         }
 
-        composable(Routes.PAYOUT_QR_SCREEN) {
-            PayoutQRScreen(navController)
+        composable(Routes.PAYOUT_QR_SCREEN) {  backStackEntry ->
+            val total = backStackEntry.arguments?.getString("total") ?: "0"
+            PayoutQRScreen(navController, total)
         }
     }
 }

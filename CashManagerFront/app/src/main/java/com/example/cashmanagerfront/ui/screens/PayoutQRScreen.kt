@@ -38,7 +38,7 @@ import java.util.Objects
 
 
 @Composable
-fun PayoutQRScreen(navController: NavHostController, total: String = "90") {
+fun PayoutQRScreen(navController: NavHostController, total: String) {
     Surface(
         modifier = Modifier
             .fillMaxSize()

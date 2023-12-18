@@ -11,7 +11,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import com.example.cashmanagerfront.ui.theme.DARK_BLUE
 import com.example.cashmanagerfront.ui.theme.DARK_GREEN_BUBBLE
 import com.example.cashmanagerfront.ui.theme.GREEN_BUBBLE
@@ -19,6 +21,12 @@ import innerShadow
 
 @Composable
 fun BackgroundApp() {
+
+    val configuration = LocalConfiguration.current
+
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+
     Surface {
         Box(
             modifier = Modifier
@@ -27,11 +35,11 @@ fun BackgroundApp() {
         ) {
             Box(
                 modifier = Modifier
-                    .offset(y = (-250).dp, x = 70.dp)
+                    .offset(y = (-0.35f * screenHeight), x = (0.15f * screenWidth))
                     .clip(shape = CircleShape)
                     .background(GREEN_BUBBLE)
-                    .height(400.dp)
-                    .width(400.dp)
+                    .height(0.5f * screenHeight)
+                    .width(1f * screenWidth)
                     .innerShadow(
                         cornersRadius = 400.dp,
                         spread = 10.dp,
@@ -43,11 +51,11 @@ fun BackgroundApp() {
             )
             Box(
                 modifier = Modifier
-                    .offset(y = 700.dp, x = (-50).dp)
+                    .offset(y = (0.82f * screenHeight), x = (-0.15f * screenWidth))
                     .clip(shape = CircleShape)
                     .background(GREEN_BUBBLE)
-                    .height(400.dp)
-                    .width(400.dp)
+                    .height(0.5f * screenHeight)
+                    .width(1f * screenWidth)
                     .innerShadow(
                         cornersRadius = 400.dp,
                         spread = 10.dp,
