@@ -46,7 +46,7 @@ fun TotalPayoutScreen(navController: NavHostController, total: String ) {
         AppBarWidget(
             navController = navController,
             title = Strings.APP_BAR_TOTAL,
-            showBackArrow = false,
+            showBackArrow = true,
             showIcon = false
         )
         Column(

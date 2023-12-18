@@ -6,7 +6,7 @@ object Strings {
 
     // APP BAR
     const val APP_BAR_TOTAL = "Paiement"
-    const val APP_BAR_SHOP = "Magasin"
+    const val APP_BAR_SHOP = "Sélection d'articles"
     const val APP_BAR_PAYOUT_CARD = "Paiement sans contact"
     const val APP_BAR_PAYOUT_QR = "Paiement par chèque"
 
