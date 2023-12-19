@@ -14,10 +14,10 @@ services:
     depends_on:
       - kotlin
 
-  phoenix:
+  back:
     container_name: Back_Cash_Manager
     build:
-      context: ./Back_Cash_Manager
+      context: ./Back_Cash_Manager/Back_Cash_Manager
       dockerfile: Dockerfile
     volumes:
       - ./timesmanager:/app
