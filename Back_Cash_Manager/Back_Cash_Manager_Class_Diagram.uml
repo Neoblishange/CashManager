@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/FLO/OneDrive/Bureau/CashManager/Back_Cash_Manager</OriginalElement>
+  <nodes>
+    <node x="373.82564571428577" y="448.05142857142874">com.cash.back_cash_manager.services.TransactionService</node>
+    <node x="-538.2909828571428" y="538.0514285714287">com.cash.back_cash_manager.config.JsonResponse</node>
+    <node x="760.1065453284198" y="448.05142857142874">com.cash.back_cash_manager.models.Payment</node>
+    <node x="-553.2909828571428" y="466.13007692504806">com.cash.back_cash_manager.services.DTO</node>
+    <node x="434.3256457142858" y="18.122194285714308">com.cash.back_cash_manager.entities.Transaction</node>
+    <node x="33.02465142857136" y="448.05142857142874">com.cash.back_cash_manager.services.AccountService</node>
+    <node x="379.82564571428577" y="696.7956454580398">com.cash.back_cash_manager.repositories.TransactionRepository</node>
+    <node x="359.32564571428577" y="255.79058285714302">com.cash.back_cash_manager.controllers.TransactionsController</node>
+    <node x="-541.7909828571428" y="302.2087252786675">com.cash.back_cash_manager.dto.UserDTO</node>
+    <node x="-229.63316571428572" y="18.122194285714308">com.cash.back_cash_manager.entities.User</node>
+    <node x="-263.6331657142857" y="447.4589714285718">com.cash.back_cash_manager.services.UserService</node>
+    <node x="101.65552000000002" y="18.122194285714308">com.cash.back_cash_manager.entities.Account</node>
+    <node x="-285.6331657142857" y="696.7956454580398">com.cash.back_cash_manager.repositories.UserRepository</node>
+    <node x="-306.6331657142857" y="255.79058285714302">com.cash.back_cash_manager.controllers.UsersController</node>
+    <node x="24.346240000000023" y="255.790582857143">com.cash.back_cash_manager.controllers.AccountController</node>
+    <node x="21.02465142857136" y="696.7956454580398">com.cash.back_cash_manager.repositories.AccountRepository</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.cash.back_cash_manager.services.TransactionService" target="com.cash.back_cash_manager.repositories.TransactionRepository" relationship="TO_ONE">
+      <point x="0.0" y="84.0" />
+      <point x="0.0" y="-38.0" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.controllers.TransactionsController" target="com.cash.back_cash_manager.services.TransactionService" relationship="TO_ONE">
+      <point x="0.0" y="73.0" />
+      <point x="0.0" y="-83.99999999999994" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.services.AccountService" target="com.cash.back_cash_manager.repositories.AccountRepository" relationship="TO_ONE">
+      <point x="-7.240129425536395" y="54.73612833297187" />
+      <point x="348.0" y="563.7875569044006" />
+      <point x="348.0" y="734.7955426008969" />
+      <point x="152.00034857142862" y="-1.028571429060321E-4" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.controllers.UsersController" target="com.cash.back_cash_manager.services.UserService" relationship="TO_ONE">
+      <point x="0.0" y="72.0" />
+      <point x="0.0" y="-72.0" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.services.UserService" target="com.cash.back_cash_manager.services.DTO" relationship="REALIZATION">
+      <point x="-101.5" y="-26.328894503523713" />
+      <point x="98.0" y="0.0" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.controllers.TransactionsController" target="com.cash.back_cash_manager.services.AccountService" relationship="TO_ONE">
+      <point x="-191.99964571428575" y="4.171428569748059E-4" />
+      <point x="339.0" y="328.791" />
+      <point x="339.0" y="509.051" />
+      <point x="140.00034857142862" y="-4.285714287561859E-4" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.services.UserService" target="com.cash.back_cash_manager.repositories.UserRepository" relationship="TO_ONE">
+      <point x="0.0" y="72.0" />
+      <point x="0.0" y="-38.0" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.services.TransactionService" target="com.cash.back_cash_manager.repositories.AccountRepository" relationship="TO_ONE">
+      <point x="-177.49964571428575" y="0.44857142857131294" />
+      <point x="348.0" y="532.5" />
+      <point x="348.0" y="734.7955426008969" />
+      <point x="152.00034857142862" y="-1.028571429060321E-4" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.controllers.AccountController" target="com.cash.back_cash_manager.services.AccountService" relationship="TO_ONE">
+      <point x="110.13832789074371" y="25.22307419900278" />
+      <point x="170.84624000000002" y="331.0136570561458" />
+      <point x="170.84624000000002" y="454.86798179059195" />
+      <point x="18.656683928029622" y="-54.18344678083679" />
+    </edge>
+    <edge source="com.cash.back_cash_manager.entities.Transaction" target="com.cash.back_cash_manager.entities.Account" relationship="TO_ONE">
+      <point x="-117.00000000000006" y="-11.0" />
+      <point x="77.5" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.721293800539084" showDependencies="true" x="74.82111677707769" y="407.6445112708407" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
