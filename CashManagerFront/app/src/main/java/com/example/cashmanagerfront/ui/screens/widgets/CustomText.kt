@@ -2,6 +2,7 @@ package com.example.cashmanagerfront.ui.screens.widgets
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -13,7 +14,7 @@ import com.example.cashmanagerfront.R
 import com.example.cashmanagerfront.ui.theme.DARK_BLUE
 
 @Composable
-fun CustomText(text: String, color: Color = DARK_BLUE, size: TextUnit = 22.sp, fontWeight: FontWeight = FontWeight.Normal, textAlign: TextAlign = TextAlign.Center) {
+fun CustomText(text: String, color: Color = DARK_BLUE, size: TextUnit = 22.sp, fontWeight: FontWeight = FontWeight.Normal, textAlign: TextAlign = TextAlign.Center, modifier: Modifier = Modifier) {
     val font = FontFamily(
         Font(R.font.mermaid1001, FontWeight.Normal)
     )
@@ -24,6 +25,7 @@ fun CustomText(text: String, color: Color = DARK_BLUE, size: TextUnit = 22.sp, f
         fontFamily = font,
         fontSize = size,
         fontWeight = fontWeight,
-        textAlign = textAlign
+        textAlign = textAlign,
+        modifier = modifier
     )
 }

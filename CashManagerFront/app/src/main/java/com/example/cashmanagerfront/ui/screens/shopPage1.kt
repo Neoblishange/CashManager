@@ -44,17 +44,21 @@ import com.example.cashmanagerfront.ui.screens.widgets.AppBarWidget
 import com.example.cashmanagerfront.ui.screens.widgets.BackgroundApp
 import com.example.cashmanagerfront.ui.utils.Strings
 import java.util.Locale
+import com.example.cashmanagerfront.ui.screens.widgets.CustomText
+import com.example.cashmanagerfront.ui.theme.RED
+import com.example.cashmanagerfront.ui.theme.DARK_BLUE
+import androidx.compose.material.TextButton
 
 @Composable
 fun ShopPage1(navController: NavHostController) {
 
     val articlesList = remember { mutableStateListOf(
-        Article("Farine", 19.99),
+        Article("Farine", 1.25),
         Article("Confiture", 29.99),
         Article("Sucre", 14.99),
         Article("Fraises", 16.99),
         Article("Sel", 4.99),
-        Article("Lait", 34.99),
+        Article("Lait", 5.00),
         Article("Levure", 24.99)
     ) }
 
@@ -69,22 +73,19 @@ fun ShopPage1(navController: NavHostController) {
 
     Surface(modifier = Modifier.fillMaxSize()) {
         BackgroundApp()
-        AppBarWidget(
-            navController = navController,
-            title = Strings.APP_BAR_SHOP,
-            showBackArrow = false,
-            showIcon = true
-        )
+
         Column(  modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
 
         )  {
-            TitleComponent(
-                welcomeText = "Welcome Sofiane!",
-                selectArticlesText = "Voici notre selection d'article :" ,
-
+            AppBarWidget(
+                navController = navController,
+                title = Strings.APP_BAR_SHOP,
+                showBackArrow = false,
+                showIcon = true
             )
+            Spacer(modifier = Modifier.weight(1f))
             Column(
                 modifier = Modifier
                     .padding(start = 40.dp, end = 40.dp, top = 10.dp, bottom = 40.dp) // margin
@@ -104,8 +105,10 @@ fun ShopPage1(navController: NavHostController) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = article.name, style = MaterialTheme.typography.body1)
-                        Text(text = "${article.price}" + "€", style = MaterialTheme.typography.caption)
+                        CustomText(text = article.name, size = 18.sp )
+                        CustomText(text = "${article.price}" + "€", size = 18.sp, modifier = Modifier
+                            .weight(1f)
+                            .wrapContentWidth(Alignment.End))
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -116,10 +119,10 @@ fun ShopPage1(navController: NavHostController) {
                                         article.quantity.value -= 1
 
                             }) {
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove")
+                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove", tint = RED)
                             }
 
-                            Text(text = "${article.quantity.value}")
+                            CustomText(text = "${article.quantity.value}")
 
                             IconButton(onClick = {
                                     if (article.quantity.value <50)
@@ -127,7 +130,7 @@ fun ShopPage1(navController: NavHostController) {
 
 
                             }) {
-                                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                                Icon(imageVector = Icons.Default.Add, contentDescription = "Add", tint = DARK_BLUE)
                             }
                         }
 
@@ -137,10 +140,9 @@ fun ShopPage1(navController: NavHostController) {
 
             totalComponent(
                 total = String.format(Locale.US, "%.2f", getTotal()) ,
-
             )
-            println(getTotal())
-            Button(
+            Spacer(modifier = Modifier.weight(2f))
+            TextButton(
                 onClick = {
                     var total = getTotal().toString()
                     navController.navigate(
@@ -148,9 +150,6 @@ fun ShopPage1(navController: NavHostController) {
                                     .replace("{total}", String.format(Locale.US, "%.2f", getTotal()))
                     )
                 },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color(0xFF00AD84)
-                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 40.dp, end = 40.dp, top = 10.dp, bottom = 40.dp)
@@ -158,7 +157,7 @@ fun ShopPage1(navController: NavHostController) {
 
 
             ) {
-                Text(text = "Valider",
+                CustomText(text = "Valider",
 
                 )
 
@@ -174,29 +173,26 @@ fun ShopPage1(navController: NavHostController) {
 @Composable
 fun totalComponent(
     total: String,
-    welcomeTextSize: TextUnit = 20.sp,
 ) {
     Row(
         modifier = Modifier
-            .width(320.dp)
-            .padding(start = 40.dp)
-            .background(Color.White, shape = RoundedCornerShape(15.dp)
+            .padding(start = 40.dp, end = 40.dp)
+            .background(
+                Color.White, shape = RoundedCornerShape(15.dp)
             )
-            .padding(top = 10.dp, bottom =10.dp, start = 10.dp, end = 10.dp)
+            .padding(top = 10.dp, bottom = 10.dp, start = 10.dp, end = 10.dp)
 
 
     ) {
-        Text(
-            text = " Votre total est de : ",
-            style = MaterialTheme.typography.h4.copy(fontSize = welcomeTextSize)
+        CustomText(
+            text = " Votre total est de : ", size = 18.sp
 
         )
-        Text(
-            text = total,
-            style = MaterialTheme.typography.h4.copy(fontSize = welcomeTextSize),
+        CustomText(
+            text = total + " €",
             modifier = Modifier
                 .weight(1f)
-                .wrapContentWidth(Alignment.End)
+                .wrapContentWidth(Alignment.End), size = 18.sp
 
         )
     }
@@ -223,8 +219,8 @@ fun TitleComponent(
             style = MaterialTheme.typography.h4.copy(fontSize = welcomeTextSize),
             color = Color.White,
             modifier = Modifier
-                .padding(bottom =40.dp)
-                .padding(start =20.dp)
+                .padding(bottom = 40.dp)
+                .padding(start = 20.dp)
 
 
         )
