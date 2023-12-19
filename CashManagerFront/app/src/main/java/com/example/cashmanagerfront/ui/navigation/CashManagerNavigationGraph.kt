@@ -14,7 +14,7 @@ import com.example.cashmanagerfront.ui.screens.WelcomeScreen.WelcomeScreen
 @Composable
 fun CashManagerNavigationGraph() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.SPLASH_SCREEN) {
+    NavHost(navController = navController, startDestination = Routes.WELCOME_SCREEN) {
 
         composable(Routes.WELCOME_SCREEN) {
             WelcomeScreen(navController)
