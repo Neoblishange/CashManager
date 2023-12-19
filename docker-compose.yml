@@ -5,16 +5,39 @@ services:
     build:
       context: ./Back_Cash_Manager
     ports:
-      - "8080:8080"
+      - "8081:8080"
     volumes:
-      - shared_data:/app/data
+      - ./Back_Cash_Manager:/app
+    networks:
+      - network
+    depends_on:
+      - database
+    links: 
+      - database
 
-  mobile:
-    build:
-      context: ./CashManagerFront
-    volumes:
-      - shared_data:/app/data
-    command: sh -c "./gradlew clean assembleDebug"
+
+  database:
+    image: mysql:latest
+    ports:
+      - "3300:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cash_manager
+    networks:
+      - network
+
+  # mobile:
+  #   build:
+  #     context: ./CashManagerFront
+  #   volumes:
+  #     - ./CashManagerFront:/app
+  #   command: sh -c "./gradlew clean assembleDebug"
+      #     networks:
+      # - network
 
 volumes:
   shared_data:
+
+networks:
+  network:
