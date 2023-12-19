@@ -1,54 +1,43 @@
 version: '3.7'
 
 services:
-  front:
-    container_name: Front_Cash_Manager
+  server:
     build:
-      context: ./Front_Cash_Manager
-      dockerfile: Dockerfile
-    volumes:
-      - ./vueproject:/app
-      - /app/node_modules
+      context: ./Back_Cash_Manager
     ports:
-      - "8081:8081"
+      - "8081:8080"
+    volumes:
+      - ./Back_Cash_Manager:/app
+    networks:
+      - network
     depends_on:
-      - kotlin
+      - database
+    links: 
+      - database
 
-  back:
-    container_name: Back_Cash_Manager
-    build:
-      context: ./Back_Cash_Manager/Back_Cash_Manager
-      dockerfile: Dockerfile
-    volumes:
-      - ./timesmanager:/app
-      - /app/deps
-      - /app/_build
+
+  database:
+    image: mysql:latest
     ports:
-      - "4000:4000"
-    depends_on:
-      - db
-    environment:
-      - POSTGRES_DB
-      - POSTGRES_HOST
-      - MIX_ENV
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_PORT
-  db:
-    container_name: postgres_container
-    image: postgres:13
+      - "3300:3306"
     restart: always
-    ports:
-      - "5432:5432"
     environment:
-      - POSTGRES_DB
-      - POSTGRES_HOST
-      - MIX_ENV
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_PORT
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cash_manager
+    networks:
+      - network
+
+  # mobile:
+  #   build:
+  #     context: ./CashManagerFront
+  #   volumes:
+  #     - ./CashManagerFront:/app
+  #   command: sh -c "./gradlew clean assembleDebug"
+      #     networks:
+      # - network
 
 volumes:
-  pgdata:
+  shared_data:
+
+networks:
+  network:
