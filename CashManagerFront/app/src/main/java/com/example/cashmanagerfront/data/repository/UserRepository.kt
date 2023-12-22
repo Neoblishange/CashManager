@@ -1,14 +1,17 @@
 package com.example.cashmanagerfront.data.repository
 
 import com.example.cashmanagerfront.data.ApiRoute
-import com.example.cashmanagerfront.data.ApiService
+import com.example.cashmanagerfront.domain.usecase.model.Data
 import com.example.cashmanagerfront.domain.usecase.model.User
-import io.ktor.client.statement.HttpResponse
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.POST
 
-class UserRepository {
+interface UserRepository {
 
-    suspend fun createUser(user: User) : HttpResponse {
-        return ApiService.post(endpoint = ApiRoute.ROUTE_USERS_REGISTER, body = user)
-    }
+    @POST(ApiRoute.ROUTE_USERS_REGISTER)
+    fun createUser(@Body user: User?): Call<Data?>?
 
+    @POST(ApiRoute.ROUTE_USERS_LOGIN)
+    fun login(@Body user: User?): Call<User>
 }
