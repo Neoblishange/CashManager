@@ -1,5 +1,6 @@
 package com.example.cashmanagerfront.ui.screens.NFC
 
+import android.content.Context
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.MifareClassic
@@ -11,26 +12,32 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 enum class StateOfPaiement {
-    INITIAL,
+    INITIAL_NFC,
+    INITIAL_QR,
     PENDING,
     PENDING_DATA,
     ACCEPTED,
-    REFUSED;
+    REFUSED,
+    QR_ERROR,
+    QR_CORRECT;
 
     val state: String
         @Composable
         @ReadOnlyComposable
         get() = when(this) {
-            INITIAL -> Strings.NFC_INITIAL
+            INITIAL_NFC -> Strings.NFC_INITIAL
+            INITIAL_QR -> Strings.QR_INITIAL
             PENDING -> Strings.NFC_PENDING
             PENDING_DATA -> Strings.NFC_PENDING_DATA
             ACCEPTED -> Strings.NFC_ACCEPTED
             REFUSED -> Strings.NFC_REFUSED
+            QR_ERROR -> Strings.QR_ERROR
+            QR_CORRECT -> Strings.QR_CORRECT
         }
 }
 
-class NFCCallback(private val stateOfPaiement: MutableState<StateOfPaiement>, private var numberAccount: MutableState<String>) : NfcAdapter.ReaderCallback {
-
+class NFCCallback(private var context: Context, private var nfcAdapter: NfcAdapter, private val stateOfPaiement: MutableState<StateOfPaiement>, private var total: String, private var numberAccount: MutableState<String>) : NfcAdapter.ReaderCallback {
+    val viewModel: TransactionViewModel = TransactionViewModel()
     override fun onTagDiscovered(tag: Tag?) {
         tag?.let {
             val mifareClassic = MifareClassic.get(it)
@@ -61,10 +68,13 @@ class NFCCallback(private val stateOfPaiement: MutableState<StateOfPaiement>, pr
                 cleanJSONArray(jsonArray)
                 val account = getAccountNumberFromJsonArray(jsonArray)
                 stateOfPaiement.value = StateOfPaiement.PENDING
-                numberAccount.value = account
-
+                val accountSplit = account.split('0')
+                println("accountSplit ----> " + accountSplit)
+                numberAccount.value = accountSplit[4]
+                viewModel.postPayout(stateOfPaiement, total, accountSplit[4])
                 println("account number ------> $account")
                 mifare.close()
+                viewModel.stopNfcScanner(context = context, nfcAdapter)
             }
         }
 
