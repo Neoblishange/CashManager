@@ -1,5 +1,5 @@
 # Utilisez l'image officielle de Maven pour la construction
-FROM maven:latest
+FROM openjdk:18.0.2.1
 
 WORKDIR /app
 
@@ -13,5 +13,5 @@ WORKDIR /app
 
 # Exposez le port sur lequel le serveur fonctionnera
 EXPOSE 8080
-ENTRYPOINT mvn spring-boot:run
-CMD bash -cl ./app-run_copy.sh 
+
+CMD bash -cl ./app-run.sh 
