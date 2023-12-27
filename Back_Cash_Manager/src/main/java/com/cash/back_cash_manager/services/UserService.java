@@ -22,6 +22,14 @@ public class UserService implements DTO {
         return user.get();
     }
 
+    public User getUserByNameAndPassword(String name, String password) {
+        Optional<User> user = userRepository.findByNameAndPassword(name, password);
+        if(user.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return user.get();
+    }
+
     public void createUser(User user) {
         Optional<User> optionalUser = userRepository.findByName(user.getName());
         if(optionalUser.isPresent()) {
