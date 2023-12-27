@@ -32,7 +32,7 @@ public class AccountController {
                     content = @Content) }
     )
     @GetMapping(path = "{accountNumber}")
-    public ResponseEntity<Object> getAccountById(@PathVariable("accountNumber") int accountNumber) {
+    public ResponseEntity<Object> getAccountById(@PathVariable("accountNumber") String accountNumber) {
         try {
             Account account = accountService.getAccountByAccountNumber(accountNumber);
             return new ResponseEntity<>(account, HttpStatus.OK);

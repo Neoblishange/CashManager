@@ -31,7 +31,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public List<Transaction> getTransactionsByAccountNumber(int accountNumber) {
+    public List<Transaction> getTransactionsByAccountNumber(String accountNumber) {
         Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
         if(account.isEmpty()) {
             throw new NoSuchElementException();

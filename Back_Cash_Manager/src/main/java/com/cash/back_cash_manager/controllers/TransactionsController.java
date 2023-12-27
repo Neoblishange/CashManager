@@ -50,7 +50,7 @@ public class TransactionsController {
                     content = @Content) }
     )
     @GetMapping(path = "{accountNumber}")
-    public ResponseEntity<Object> getAllTransactionsOfOneAccount(@PathVariable int accountNumber) {
+    public ResponseEntity<Object> getAllTransactionsOfOneAccount(@PathVariable String accountNumber) {
         try {
             List<Transaction> transactions = transactionService.getTransactionsByAccountNumber(accountNumber);
             return new ResponseEntity<>(transactions, HttpStatus.OK);

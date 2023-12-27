@@ -21,7 +21,7 @@ public class Account {
 
     @NotBlank
     @Column(name = "account_number", unique = true)
-    private int accountNumber;
+    private String accountNumber;
 
     @NotBlank
     @Column(name = "amount", nullable = false)

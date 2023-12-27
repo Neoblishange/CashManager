@@ -14,7 +14,7 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Account getAccountByAccountNumber(int accountNumber) {
+    public Account getAccountByAccountNumber(String accountNumber) {
         Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
         if(account.isEmpty()) {
             throw new NoSuchElementException();

@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 @Hidden
 public class Payment {
 
-    private int accountNumber;
+    private String accountNumber;
     private BigDecimal amount;
 }
