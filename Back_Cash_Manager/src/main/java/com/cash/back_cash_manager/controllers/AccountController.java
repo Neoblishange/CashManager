@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @Operation(summary = "Get account by account number")
+    @Operation(summary = "Get account by account number", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account found",
                     content = { @Content(schema = @Schema(implementation = Account.class)) }
@@ -40,7 +41,7 @@ public class AccountController {
         }
     }
 
-    @Operation(summary = "Create a new account")
+    @Operation(summary = "Create a new account", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account created",
                     content = @Content

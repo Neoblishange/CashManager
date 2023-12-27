@@ -30,7 +30,7 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Get user by id", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Get user by id", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                     content = { @Content(schema = @Schema(implementation = UserDTO.class)) }
@@ -67,7 +67,7 @@ public class UsersController {
         }
     }
 
-    @Operation(summary = "Update user by id")
+    @Operation(summary = "Update user by id", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User updated",
                     content = @Content),
@@ -84,7 +84,7 @@ public class UsersController {
         }
     }
 
-    @Operation(summary = "Delete user by id")
+    @Operation(summary = "Delete user by id", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User deleted",
                     content = @Content),

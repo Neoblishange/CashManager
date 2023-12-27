@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class TransactionsController {
     @Autowired
     private AccountService accountService;
 
-    @Operation(summary = "Get all transactions")
+    @Operation(summary = "Get all transactions", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Transactions displayed")}
     )
@@ -40,7 +41,7 @@ public class TransactionsController {
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all transactions by account number")
+    @Operation(summary = "Get all transactions by account number", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Transactions displayed by account number",
                     content = { @Content(array = @ArraySchema(schema = @Schema(implementation = Transaction.class))) }
@@ -58,7 +59,7 @@ public class TransactionsController {
         }
     }
 
-    @Operation(summary = "Payment transaction")
+    @Operation(summary = "Payment transaction", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Payment done"),
             @ApiResponse(responseCode = "400", description = "Payment refused",
@@ -80,7 +81,7 @@ public class TransactionsController {
         }
     }
 
-    @Operation(summary = "Delete transaction by id")
+    @Operation(summary = "Delete transaction by id", security = @SecurityRequirement(name = "Bearer Token"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account deleted"),
             @ApiResponse(responseCode = "404", description = "Account not found",
