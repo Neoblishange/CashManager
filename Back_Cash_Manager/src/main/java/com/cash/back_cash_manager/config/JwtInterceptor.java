@@ -1,10 +1,10 @@
 package com.cash.back_cash_manager.config;
 
+import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +24,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String jsonResponse = new Gson().toJson(new JsonResponse("Unauthorized"));
+
         // Ignore /login and /register
         if ("/login".equals(request.getRequestURI()) || "/register".equals(request.getRequestURI())) {
             return true;
@@ -48,12 +50,20 @@ public class JwtInterceptor implements HandlerInterceptor {
             } catch (Exception e) {
                 // Handle token validation failure
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(jsonResponse);
+                response.getWriter().flush();
                 return false;
             }
         }
 
         // No token or invalid token
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(jsonResponse);
+        response.getWriter().flush();
         return false;
     }
 
