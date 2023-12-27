@@ -4,23 +4,33 @@ import com.cash.back_cash_manager.config.JsonResponse;
 import com.cash.back_cash_manager.dto.UserDTO;
 import com.cash.back_cash_manager.entities.User;
 import com.cash.back_cash_manager.services.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+    @Value("${MY_SECRET_KEY}")
+    private String secretKeyString;
     @Autowired
     private UserService userService;
 
-    @Operation(summary = "Get user by id")
+    @Operation(summary = "Get user by id", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found",
                     content = { @Content(schema = @Schema(implementation = UserDTO.class)) }
@@ -91,10 +101,30 @@ public class UsersController {
             return new ResponseEntity<>(new JsonResponse("Account not found"), HttpStatus.NOT_FOUND);
         }
     }
-    /*
+
+    @Operation(summary = "Login")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login successfully",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Login failed",
+                    content = @Content) }
+    )
     @PostMapping("/login")
-    public ResponseEntity<Object> login() {
-        JsonResponse response = new JsonResponse("test");
-        return ResponseEntity.ok().body(response);
-    }*/
+    public ResponseEntity<Object> login(@RequestBody User user) {
+        try {
+            userService.getUserByNameAndPassword(user.getName(), user.getPassword());
+            SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("id", user.getId());
+            claims.put("name", user.getName());
+            String token = Jwts.builder()
+                    .setSubject(user.getName())
+                    .setClaims(claims)
+                    .signWith(secretKey)
+                    .compact();
+            return new ResponseEntity<>(new JsonResponse(token), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new JsonResponse("Login failed"), HttpStatus.BAD_REQUEST);
+        }
+    }
 }
