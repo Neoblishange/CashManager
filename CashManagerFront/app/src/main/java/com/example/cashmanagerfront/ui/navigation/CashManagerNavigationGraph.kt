@@ -10,6 +10,7 @@ import com.example.cashmanagerfront.ui.screens.PayoutQRScreen
 import com.example.cashmanagerfront.ui.screens.SplashScreen
 import com.example.cashmanagerfront.ui.screens.TotalPayoutScreen
 import com.example.cashmanagerfront.ui.screens.WelcomeScreen.WelcomeScreen
+import SettingsScreen
 
 @Composable
 fun CashManagerNavigationGraph() {
@@ -41,6 +42,10 @@ fun CashManagerNavigationGraph() {
         composable(Routes.PAYOUT_QR_SCREEN) {  backStackEntry ->
             val total = backStackEntry.arguments?.getString("total") ?: "0"
             PayoutQRScreen(navController, total)
+        }
+
+        composable(Routes.SETTINGS_SCREEN) {
+            SettingsScreen(navController)
         }
     }
 }
