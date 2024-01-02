@@ -19,7 +19,7 @@ class TransactionViewModel: ViewModel() {
     fun postPayout(stateOfPaiement: MutableState<StateOfPaiement>, total: String, accountNumber: String) {
         stateOfPaiement.value = StateOfPaiement.PENDING
 
-        var payout = Payout(accountNumber = accountNumber.toInt(), amount = total.toFloat())
+        var payout = Payout(accountNumber = accountNumber, amount = total.toFloat())
 
         val call: Call<Data?>? = ApiService.transactionRepository.payout(payout)
 
@@ -42,8 +42,7 @@ class TransactionViewModel: ViewModel() {
         stateOfPaiement.value = StateOfPaiement.PENDING_DATA
         if(total.toFloat() == amountQr.toFloat()) {
             stateOfPaiement.value = StateOfPaiement.QR_CORRECT
-            val accountSplit = accountNumber.split('0')
-            postPayout(stateOfPaiement, total = total, accountSplit[4])
+            postPayout(stateOfPaiement, total = total, accountNumber)
         } else {
             stateOfPaiement.value = StateOfPaiement.QR_ERROR
         }

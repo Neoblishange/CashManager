@@ -9,7 +9,19 @@ object Strings {
     const val APP_BAR_SHOP = "Sélection d'articles"
     const val APP_BAR_PAYOUT_CARD = "Paiement sans contact"
     const val APP_BAR_PAYOUT_QR = "Paiement par chèque"
+    const val APP_SETTINGS = "Paramètres"
 
+    // LOGIN
+    const val LOGIN_WELCOME = "Bienvenue "
+    const val LOGIN_FIELD_NAME = "Entrez votre nom"
+    const val LOGIN_FIELD_PASSWORD = "Entrez votre mot de passe"
+    const val LOGIN_TITLE = "Veuillez vous authentifier"
+
+    // SETTINGS
+    const val SETTINGS_SELLER_NAME = "Vendeur :"
+    const val SETTINGS_TRANSACTIONS_LIST = "Liste des transactions"
+    const val SETTINGS_DISCONNECT = "Se déconnecter"
+    const val SETTINGS_CONNECT = "Se connecter"
 
     // WELCOME_SCREEN
     const val WELCOME_TITLE = "Bonjour à tous !"

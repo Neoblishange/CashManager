@@ -68,11 +68,7 @@ class NFCCallback(private var context: Context, private var nfcAdapter: NfcAdapt
                 cleanJSONArray(jsonArray)
                 val account = getAccountNumberFromJsonArray(jsonArray)
                 stateOfPaiement.value = StateOfPaiement.PENDING
-                val accountSplit = account.split('0')
-                println("accountSplit ----> " + accountSplit)
-                numberAccount.value = accountSplit[4]
-                viewModel.postPayout(stateOfPaiement, total, accountSplit[4])
-                println("account number ------> $account")
+                viewModel.postPayout(stateOfPaiement, total, account)
                 mifare.close()
                 viewModel.stopNfcScanner(context = context, nfcAdapter)
             }

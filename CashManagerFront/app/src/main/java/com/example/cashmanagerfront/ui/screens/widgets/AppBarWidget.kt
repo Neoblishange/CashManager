@@ -32,6 +32,15 @@ fun AppBarWidget(
             .padding(vertical = 10.dp),
     ) {
 
+        Icon(
+            painter = painterResource(id = R.drawable.arrowleft1_1),
+            contentDescription = "back",
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .clickable(enabled = showBackArrow) { navController.popBackStack() },
+            tint = if (showBackArrow) Color.White else Color.Transparent
+        )
+
         Spacer(modifier = Modifier.weight(1f))
 
         CustomText(
