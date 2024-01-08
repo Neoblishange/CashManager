@@ -104,7 +104,7 @@ fun PayoutNFCScreen(navController: NavHostController, total: String) {
             if (stateOfPaiement.value == StateOfPaiement.ACCEPTED) {
                 TextButton(onClick = {
                     navController.navigate(Routes.SHOP_SCREEN) {
-                        popUpTo(Routes.SPLASH_SCREEN) {
+                        popUpTo(Routes.SHOP_SCREEN) {
                             inclusive = true
                         }
                     }

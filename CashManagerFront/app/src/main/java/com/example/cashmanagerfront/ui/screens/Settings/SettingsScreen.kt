@@ -50,8 +50,7 @@ fun SettingsScreen(navController: NavHostController) {
 
             if(Constant.IS_AUTHENTICATED.value) {
                 LaunchedEffect(key1 = true) {
-                    println("get transaction launch effect")
-                    viewModel.getAllTransactions()
+                    viewModel.getAllTransactions(context)
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -79,8 +78,6 @@ fun SettingsScreen(navController: NavHostController) {
                         .padding(bottom = 8.dp)
                 )
                     TransactionsList(transactions = viewModel.transactions.reversed())
-                } else {
-                    Text(text = "bateau")
                 }
                 Spacer(modifier = Modifier.weight(1f)) // Pushes the logout button to the bottom
                 TextButton(
@@ -163,16 +160,16 @@ fun TransactionItem(transaction: TransactionCallback) {
     ) {
         Column {
             CustomText(
-                text = transaction.account.accountNumber,
+                text = Strings.SETTINGS_NUMBER_TRANSACTION + transaction.id.toString(),
                 size = 16.sp,
             )
             CustomText(
-                text = Strings.SETTINGS_NUMBER_TRANSACTION + transaction.id.toString(),
+                text = transaction.account.accountNumber,
                 size = 16.sp,
             )
         }
         CustomText(
-            text = transaction.amount.toString(),
+            text = transaction.amount.toString() + " €",
             size = 18.sp,
         )
     }

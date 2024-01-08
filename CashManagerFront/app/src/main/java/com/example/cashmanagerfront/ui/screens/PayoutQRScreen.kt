@@ -103,7 +103,7 @@ fun PayoutQRScreen(navController: NavHostController, total: String) {
             if (stateOfPaiement.value == StateOfPaiement.ACCEPTED) {
                 androidx.compose.material.TextButton(onClick = {
                     navController.navigate(Routes.SHOP_SCREEN) {
-                        popUpTo(Routes.SPLASH_SCREEN) {
+                        popUpTo(Routes.SHOP_SCREEN) {
                             inclusive = true
                         }
                     }
@@ -181,7 +181,8 @@ fun qrCodeScannerComposeTheme(stateOfPaiement: MutableState<StateOfPaiement>, to
                                     stateOfPaiement,
                                     total = total,
                                     amountQr = amount,
-                                    accountNumber
+                                    accountNumber,
+                                    context
                                 )
                                 imageAnalysis.clearAnalyzer()
                             } else {

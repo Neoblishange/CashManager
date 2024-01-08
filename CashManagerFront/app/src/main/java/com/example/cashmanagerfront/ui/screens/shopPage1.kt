@@ -181,20 +181,24 @@ fun ShopPage1(navController: NavHostController) {
                     onClick = {
                         var total = getTotal().toString()
                         if (Constant.IS_AUTHENTICATED.value) {
-                            navController.navigate(
-                                Routes.TOTAL_PAYOUT_SCREEN
-                                    .replace(
-                                        "{total}",
-                                        String.format(Locale.US, "%.2f", getTotal())
-                                    )
-                            )
+                            if(getTotal() != 0.00) {
+                                navController.navigate(
+                                    Routes.TOTAL_PAYOUT_SCREEN
+                                        .replace(
+                                            "{total}",
+                                            String.format(Locale.US, "%.2f", getTotal())
+                                        )
+                                )
+                            } else {
+                                Toast.makeText(context, Strings.ERROR_PRICE_NULL, Toast.LENGTH_LONG).show()
+                            }
                         } else {
                             scope.launch {
                                 val result = snackbarHostState
                                     .showSnackbar(
                                         message = Strings.UNAUTHENTICATED,
                                         actionLabel = Strings.UNAUTHENTICATED_BUTTON,
-                                        duration = SnackbarDuration.Indefinite
+                                        duration = SnackbarDuration.Long
                                     )
                                 when (result) {
                                     SnackbarResult.ActionPerformed -> {
@@ -202,7 +206,6 @@ fun ShopPage1(navController: NavHostController) {
                                     }
 
                                     SnackbarResult.Dismissed -> {
-                                        /* Handle snackbar dismissed */
                                     }
                                 }
                             }

@@ -6,11 +6,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.provider.Settings
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import com.example.cashmanagerfront.data.ApiService
 import com.example.cashmanagerfront.domain.usecase.model.Data
 import com.example.cashmanagerfront.domain.usecase.model.Payout
+import com.google.gson.JsonParser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +21,7 @@ import retrofit2.Response
 class TransactionViewModel(context: Context): ViewModel() {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
 
-    fun postPayout(stateOfPaiement: MutableState<StateOfPaiement>, total: String, accountNumber: String) {
+    fun postPayout(stateOfPaiement: MutableState<StateOfPaiement>, total: String, accountNumber: String, context: Context) {
         stateOfPaiement.value = StateOfPaiement.PENDING
 
         var payout = Payout(accountNumber = accountNumber, amount = total.toFloat())
@@ -32,22 +35,27 @@ class TransactionViewModel(context: Context): ViewModel() {
                 if(response!!.isSuccessful) {
                     stateOfPaiement.value = StateOfPaiement.ACCEPTED
                 } else {
-                    val res : String? = response.errorBody()!!.string()
                     stateOfPaiement.value = StateOfPaiement.REFUSED
-                }
+
+                    val res: String? = response.errorBody()!!.string()
+                    val json = JsonParser().parse(res)
+                    val dataValue = json.asJsonObject.get("data").asString
+                    Toast.makeText(context, dataValue, Toast.LENGTH_SHORT).show()                }
             }
 
             override fun onFailure(call: Call<Data?>?, t: Throwable) {
                 stateOfPaiement.value = StateOfPaiement.REFUSED
+                Toast.makeText(context, "Error : " + t.message, LENGTH_LONG).show()
+
             }
         })
     }
 
-    fun checkIfAmountIsEqualsToTotalQR(stateOfPaiement: MutableState<StateOfPaiement>, total: String, amountQr: String, accountNumber: String) {
+    fun checkIfAmountIsEqualsToTotalQR(stateOfPaiement: MutableState<StateOfPaiement>, total: String, amountQr: String, accountNumber: String, context: Context) {
         stateOfPaiement.value = StateOfPaiement.PENDING_DATA
         if(total.toFloat() == amountQr.toFloat()) {
             stateOfPaiement.value = StateOfPaiement.QR_CORRECT
-            postPayout(stateOfPaiement, total = total, accountNumber)
+            postPayout(stateOfPaiement, total = total, accountNumber, context = context)
         } else {
             stateOfPaiement.value = StateOfPaiement.QR_ERROR
         }
@@ -59,6 +67,7 @@ class TransactionViewModel(context: Context): ViewModel() {
         } else {
             val intent = Intent(Settings.ACTION_NFC_SETTINGS)
             context.startActivity(intent)
+            startNfcScanner(context, nfcAdapter, stateOfPaiement, accountNumber, total)
         }
     }
 

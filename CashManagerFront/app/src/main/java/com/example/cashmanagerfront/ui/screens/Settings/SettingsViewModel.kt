@@ -25,10 +25,6 @@ class SettingsViewModel(context: Context) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
 
-    init {
-        getAllTransactions()
-    }
-
     fun login(context: Context) {
         var user: User? = null
         user = User(name = name.value, password = password.value)
@@ -45,11 +41,6 @@ class SettingsViewModel(context: Context) : ViewModel() {
                         apply()
                     }
 
-                    Toast.makeText(
-                        context,
-                        Strings.LOGIN_WELCOME + response.body()?.name?.uppercase() + " !",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     Constant.IS_AUTHENTICATED.value = true
 
                 } else {
@@ -62,13 +53,12 @@ class SettingsViewModel(context: Context) : ViewModel() {
             }
 
             override fun onFailure(call: Call<User?>, t: Throwable) {
-                Toast.makeText(context, "Error found is : " + t.message, Toast.LENGTH_SHORT).show()
-                val resp = "Error found is : " + t.message
+                Toast.makeText(context, "Error : " + t.message, Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    fun getAllTransactions() {
+    fun getAllTransactions(context: Context) {
 
         val token: String? = "Bearer " + getTokenFromPreferences()
 
@@ -85,15 +75,18 @@ class SettingsViewModel(context: Context) : ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     transactions = response.body() as MutableList<TransactionCallback>
-                    println("transaction -----> ${transactions.first().id}")
                     hadTransaction.value = true
-                    println(hadTransaction.value)
                 } else {
                     hadTransaction.value = false
+                    val res: String? = response.errorBody()!!.string()
+                    val json = JsonParser().parse(res)
+                    val dataValue = json.asJsonObject.get("data").asString
+                    Toast.makeText(context, dataValue, Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<TransactionCallback?>?>, t: Throwable) {
+                Toast.makeText(context, "Error : " + t.message, Toast.LENGTH_LONG).show()
             }
         })
     }

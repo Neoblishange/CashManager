@@ -37,6 +37,8 @@ object Strings {
     const val TOTAL_PAYOUT_CHOICE_SYSTEM_QR = "Chèque"
 
     const val GO_SHOP = "Retourner au magasin"
+    const val ERROR_PRICE_NULL = "Montant invalide, veuillez selectionner un/des article(s)"
+
 
 
     // PAYOUT_NFC_SCREEN
