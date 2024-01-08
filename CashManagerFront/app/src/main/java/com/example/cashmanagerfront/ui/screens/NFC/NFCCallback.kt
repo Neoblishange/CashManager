@@ -19,7 +19,8 @@ enum class StateOfPaiement {
     ACCEPTED,
     REFUSED,
     QR_ERROR,
-    QR_CORRECT;
+    QR_CORRECT,
+    QR_WRONG;
 
     val state: String
         @Composable
@@ -33,11 +34,12 @@ enum class StateOfPaiement {
             REFUSED -> Strings.NFC_REFUSED
             QR_ERROR -> Strings.QR_ERROR
             QR_CORRECT -> Strings.QR_CORRECT
+            QR_WRONG -> Strings.QR_WRONG
         }
 }
 
 class NFCCallback(private var context: Context, private var nfcAdapter: NfcAdapter, private val stateOfPaiement: MutableState<StateOfPaiement>, private var total: String, private var numberAccount: MutableState<String>) : NfcAdapter.ReaderCallback {
-    val viewModel: TransactionViewModel = TransactionViewModel()
+    val viewModel: TransactionViewModel = TransactionViewModel(context)
     override fun onTagDiscovered(tag: Tag?) {
         tag?.let {
             val mifareClassic = MifareClassic.get(it)
@@ -68,11 +70,7 @@ class NFCCallback(private var context: Context, private var nfcAdapter: NfcAdapt
                 cleanJSONArray(jsonArray)
                 val account = getAccountNumberFromJsonArray(jsonArray)
                 stateOfPaiement.value = StateOfPaiement.PENDING
-                val accountSplit = account.split('0')
-                println("accountSplit ----> " + accountSplit)
-                numberAccount.value = accountSplit[4]
-                viewModel.postPayout(stateOfPaiement, total, accountSplit[4])
-                println("account number ------> $account")
+                viewModel.postPayout(stateOfPaiement, total, account, context)
                 mifare.close()
                 viewModel.stopNfcScanner(context = context, nfcAdapter)
             }

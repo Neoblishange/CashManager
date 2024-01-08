@@ -14,7 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.cashmanagerfront.R
+import com.example.cashmanagerfront.ui.navigation.Routes
 import com.example.cashmanagerfront.ui.theme.DARK_BLUE
+import com.example.cashmanagerfront.ui.theme.Purple200
 
 @Composable
 fun AppBarWidget(
@@ -22,12 +24,14 @@ fun AppBarWidget(
     title: String,
     showBackArrow: Boolean,
     showIcon: Boolean
+    // onSettingsClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp),
     ) {
+
         Icon(
             painter = painterResource(id = R.drawable.arrowleft1_1),
             contentDescription = "back",
@@ -52,7 +56,9 @@ fun AppBarWidget(
             tint = if (showIcon) DARK_BLUE else Color.Transparent,
             modifier = Modifier
                 .padding(end = 16.dp)
-                .clickable(enabled = showIcon) { }
+                .clickable(enabled = showIcon) {
+                    navController.navigate(Routes.SETTINGS_SCREEN)
+                }
         )
     }
 }

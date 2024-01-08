@@ -1,5 +1,7 @@
 package com.example.cashmanagerfront.ui.screens
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,6 +31,7 @@ import com.example.cashmanagerfront.ui.screens.widgets.CustomText
 import com.example.cashmanagerfront.ui.theme.DARK_GREEN_BUBBLE
 import com.example.cashmanagerfront.ui.theme.GREEN_BUBBLE
 import com.example.cashmanagerfront.ui.theme.LIGHT_GREEN_BUBBLE
+import com.example.cashmanagerfront.ui.utils.Constant
 import com.example.cashmanagerfront.ui.utils.Strings
 import innerShadow
 import kotlinx.coroutines.delay
@@ -35,18 +39,24 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(navController: NavController) {
+    var context: Context = LocalContext.current
+    val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
+
     Surface(modifier = Modifier.fillMaxSize()) {
+        val token = sharedPreferences.getString("token", "")
         val coroutineScope = rememberCoroutineScope()
 
         LaunchedEffect(key1 = true) {
             coroutineScope.launch {
-                delay(4000)
+                delay(3000)
                 navController.navigate(Routes.SHOP_SCREEN) {
                     popUpTo(Routes.SPLASH_SCREEN) {
                         inclusive = true
                     }
                 }
             }
+            Constant.IS_AUTHENTICATED.value = token != null && token != ""
+
         }
 
         BackgroundApp()

@@ -1,5 +1,6 @@
 package com.example.cashmanagerfront.ui.screens
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Size
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -102,7 +103,7 @@ fun PayoutQRScreen(navController: NavHostController, total: String) {
             if (stateOfPaiement.value == StateOfPaiement.ACCEPTED) {
                 androidx.compose.material.TextButton(onClick = {
                     navController.navigate(Routes.SHOP_SCREEN) {
-                        popUpTo(Routes.SPLASH_SCREEN) {
+                        popUpTo(Routes.SHOP_SCREEN) {
                             inclusive = true
                         }
                     }
@@ -120,12 +121,12 @@ fun PayoutQRScreen(navController: NavHostController, total: String) {
 
 @Composable
 fun qrCodeScannerComposeTheme(stateOfPaiement: MutableState<StateOfPaiement>, total: String) {
-    val viewModel: TransactionViewModel = TransactionViewModel()
+    val context: Context = LocalContext.current
+    var viewModel: TransactionViewModel = TransactionViewModel(context = context)
 
     var code by remember() {
         mutableStateOf("")
     }
-    val context = LocalContext.current
     val lifeCycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(context)
@@ -175,14 +176,18 @@ fun qrCodeScannerComposeTheme(stateOfPaiement: MutableState<StateOfPaiement>, to
                             val json = JsonParser().parse(code)
                             val accountNumber = json.asJsonObject.get("account_number").asString
                             val amount = json.asJsonObject.get("amount").asString
-                            viewModel.checkIfAmountIsEqualsToTotalQR(
-                                stateOfPaiement,
-                                total = total,
-                                amountQr = amount,
-                                accountNumber
-                            )
-
-                            imageAnalysis.clearAnalyzer()
+                            if(accountNumber != null && amount != null) {
+                                viewModel.checkIfAmountIsEqualsToTotalQR(
+                                    stateOfPaiement,
+                                    total = total,
+                                    amountQr = amount,
+                                    accountNumber,
+                                    context
+                                )
+                                imageAnalysis.clearAnalyzer()
+                            } else {
+                                stateOfPaiement.value = StateOfPaiement.QR_WRONG
+                            }
                         }
                     )
                     try {
