@@ -3,6 +3,7 @@ package com.example.cashmanagerfront.ui.screens.NFC
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.nfc.NfcAdapter
 import android.provider.Settings
 import androidx.compose.runtime.MutableState
@@ -14,20 +15,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TransactionViewModel: ViewModel() {
+class TransactionViewModel(context: Context): ViewModel() {
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_data", Context.MODE_PRIVATE)
 
     fun postPayout(stateOfPaiement: MutableState<StateOfPaiement>, total: String, accountNumber: String) {
         stateOfPaiement.value = StateOfPaiement.PENDING
 
         var payout = Payout(accountNumber = accountNumber, amount = total.toFloat())
 
-        val call: Call<Data?>? = ApiService.transactionRepository.payout(payout)
+        var token: String? = "Bearer " + getTokenFromPreferences()
+
+        val call: Call<Data?>? = ApiService.transactionRepository.payout(token!!, payout)
 
         call!!.enqueue(object : Callback<Data?> {
             override fun onResponse(call: Call<Data?>?, response: Response<Data?>?) {
                 if(response!!.isSuccessful) {
                     stateOfPaiement.value = StateOfPaiement.ACCEPTED
                 } else {
+                    val res : String? = response.errorBody()!!.string()
                     stateOfPaiement.value = StateOfPaiement.REFUSED
                 }
             }
@@ -69,5 +74,9 @@ class TransactionViewModel: ViewModel() {
 
     fun stopNfcScanner(context: Context, nfcAdapter: NfcAdapter) {
         nfcAdapter.disableReaderMode(context as Activity?)
+    }
+
+    fun getTokenFromPreferences(): String? {
+        return sharedPreferences.getString("token", "")
     }
 }

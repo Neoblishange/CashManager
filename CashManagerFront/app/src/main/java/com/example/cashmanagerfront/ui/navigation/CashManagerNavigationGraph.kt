@@ -15,7 +15,7 @@ import SettingsScreen
 @Composable
 fun CashManagerNavigationGraph() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.SHOP_SCREEN) {
+    NavHost(navController = navController, startDestination = Routes.SPLASH_SCREEN) {
 
         composable(Routes.WELCOME_SCREEN) {
             WelcomeScreen(navController)

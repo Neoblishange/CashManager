@@ -22,7 +22,6 @@ class WelcomeScreenViewModel : ViewModel() {
     fun createUser(context: Context) {
         var user: User? = null
         user = User(name = name.value, password = password.value)
-        println(user.password)
 
         val call: Call<Data?>? = ApiService.userRepository.createUser(user)
 

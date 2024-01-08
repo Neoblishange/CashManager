@@ -22,9 +22,12 @@ object Strings {
     const val SETTINGS_TRANSACTIONS_LIST = "Liste des transactions"
     const val SETTINGS_DISCONNECT = "Se déconnecter"
     const val SETTINGS_CONNECT = "Se connecter"
+    const val SETTINGS_NUMBER_TRANSACTION = "Transaction n°"
 
     // WELCOME_SCREEN
     const val WELCOME_TITLE = "Bonjour à tous !"
+    const val UNAUTHENTICATED = "Veuillez vous connecter pour passer à la suite."
+    const val UNAUTHENTICATED_BUTTON = "Se connecter"
 
     // TOTAL_PAYOUT_SCREEN
     const val TOTAL_PAYOUT_BODY = "Vous devez :"
@@ -47,4 +50,5 @@ object Strings {
     const val QR_INITIAL = "Merci de scanner votre chèque"
     const val QR_ERROR = "Montant incorrect, veuillez remplir le bon montant"
     const val QR_CORRECT = "Montant validé"
+    const val QR_WRONG = "QR Code invalide"
 }

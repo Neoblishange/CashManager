@@ -1,7 +1,7 @@
 package com.example.cashmanagerfront.domain.usecase.model
 
 class User(
-    val name: String,
+    val name: String? = "",
     val password: String? = "",
-    val token: String? = ""
+    val data: String? = ""
 )

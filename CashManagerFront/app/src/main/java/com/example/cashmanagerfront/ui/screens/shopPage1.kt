@@ -1,8 +1,12 @@
 package com.example.cashmanagerfront.ui.screens
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +25,11 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -48,9 +57,20 @@ import com.example.cashmanagerfront.ui.screens.widgets.CustomText
 import com.example.cashmanagerfront.ui.theme.RED
 import com.example.cashmanagerfront.ui.theme.DARK_BLUE
 import androidx.compose.material.TextButton
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import com.example.cashmanagerfront.ui.utils.Constant
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ShopPage1(navController: NavHostController) {
+    val context: Context = LocalContext.current
+
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
 
     val articlesList = remember { mutableStateListOf(
         Article("Farine", 1.25),
@@ -71,99 +91,140 @@ fun ShopPage1(navController: NavHostController) {
         return total
     }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        BackgroundApp()
+    Scaffold(snackbarHost = {
+        SnackbarHost(hostState = snackbarHostState)
+    },
+    ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            BackgroundApp()
 
-        Column(  modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-
-        )  {
-            AppBarWidget(
-                navController = navController,
-                title = Strings.APP_BAR_SHOP,
-                showBackArrow = false,
-                showIcon = true
-            )
-            Spacer(modifier = Modifier.weight(1f))
             Column(
                 modifier = Modifier
-                    .padding(start = 40.dp, end = 40.dp, top = 10.dp, bottom = 40.dp) // margin
-                    .clip(shape = RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp))
-
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
 
             ) {
+                AppBarWidget(
+                    navController = navController,
+                    title = Strings.APP_BAR_SHOP,
+                    showBackArrow = false,
+                    showIcon = true
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Column(
+                    modifier = Modifier
+                        .padding(start = 40.dp, end = 40.dp, top = 10.dp, bottom = 40.dp) // margin
+                        .clip(shape = RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp))
 
-                for ( article in articlesList) {
-                    Row(
-                        modifier = Modifier
-                            .width(500.dp)
-                            .background(Color.White)
-                            .padding(start = 5.dp, end = 5.dp),
 
+                ) {
 
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        CustomText(text = article.name, size = 18.sp )
-                        CustomText(text = "${article.price}" + "€", size = 18.sp, modifier = Modifier
-                            .weight(1f)
-                            .wrapContentWidth(Alignment.End))
-
+                    for (article in articlesList) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            modifier = Modifier
+                                .width(500.dp)
+                                .background(Color.White)
+                                .padding(start = 5.dp, end = 5.dp),
+
+
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(onClick = {
+                            CustomText(text = article.name, size = 18.sp)
+                            CustomText(
+                                text = "${article.price}" + "€", size = 18.sp, modifier = Modifier
+                                    .weight(1f)
+                                    .wrapContentWidth(Alignment.End)
+                            )
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                IconButton(onClick = {
                                     if (article.quantity.value > 0)
                                         article.quantity.value -= 1
 
-                            }) {
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove", tint = RED)
-                            }
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Remove",
+                                        tint = RED
+                                    )
+                                }
 
-                            CustomText(text = "${article.quantity.value}")
+                                CustomText(text = "${article.quantity.value}")
 
-                            IconButton(onClick = {
-                                    if (article.quantity.value <50)
+                                IconButton(onClick = {
+                                    if (article.quantity.value < 50)
                                         article.quantity.value += 1
 
 
-                            }) {
-                                Icon(imageVector = Icons.Default.Add, contentDescription = "Add", tint = DARK_BLUE)
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = "Add",
+                                        tint = DARK_BLUE
+                                    )
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
-            }
 
-            totalComponent(
-                total = String.format(Locale.US, "%.2f", getTotal()) ,
-            )
-            Spacer(modifier = Modifier.weight(2f))
-            TextButton(
-                onClick = {
-                    var total = getTotal().toString()
-                    navController.navigate(
-                        Routes.TOTAL_PAYOUT_SCREEN
-                                    .replace("{total}", String.format(Locale.US, "%.2f", getTotal()))
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 40.dp, end = 40.dp, top = 10.dp, bottom = 40.dp)
-
-
-
-            ) {
-                CustomText(text = "Valider",
-
+                totalComponent(
+                    total = String.format(Locale.US, "%.2f", getTotal()),
                 )
+                Spacer(modifier = Modifier.weight(2f))
+                TextButton(
+                    onClick = {
+                        var total = getTotal().toString()
+                        if (Constant.IS_AUTHENTICATED.value) {
+                            navController.navigate(
+                                Routes.TOTAL_PAYOUT_SCREEN
+                                    .replace(
+                                        "{total}",
+                                        String.format(Locale.US, "%.2f", getTotal())
+                                    )
+                            )
+                        } else {
+                            scope.launch {
+                                val result = snackbarHostState
+                                    .showSnackbar(
+                                        message = Strings.UNAUTHENTICATED,
+                                        actionLabel = Strings.UNAUTHENTICATED_BUTTON,
+                                        duration = SnackbarDuration.Indefinite
+                                    )
+                                when (result) {
+                                    SnackbarResult.ActionPerformed -> {
+                                        navController.navigate(Routes.SETTINGS_SCREEN)
+                                    }
+
+                                    SnackbarResult.Dismissed -> {
+                                        /* Handle snackbar dismissed */
+                                    }
+                                }
+                            }
+
+
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 40.dp, end = 40.dp, top = 10.dp, bottom = 40.dp)
+
+
+                ) {
+                    CustomText(
+                        text = "Valider",
+
+                        )
+
+                }
+
 
             }
-
-
         }
     }
 
