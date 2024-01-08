@@ -1,39 +1,38 @@
 version: '3.7'
 
 services:
-  # server:
-  #   build:
-  #     context: ./Back_Cash_Manager
-  #   ports:
-  #     - "8081:8080"
-  #   volumes:
-  #     - ./Back_Cash_Manager:/app
-  #   networks:
-  #     - network
-  #   depends_on:
-  #     - database
-  #   links: 
-  #     - database
+   server:
+     build:
+       context: ./Back_Cash_Manager
+     ports:
+       - "8081:8080"
+     volumes:
+       - ./Back_Cash_Manager:/app
+     networks:
+       - network
+     depends_on:
+       - database
+     links:
+       - database
 
+   database:
+     image: mysql:latest
+     ports:
+       - "3300:3306"
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: cash_manager
+     networks:
+       - network
 
-  # database:
-  #   image: mysql:latest
-  #   ports:
-  #     - "3300:3306"
-  #   restart: always
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_DATABASE: cash_manager
-  #   networks:
-  #     - network
-
-  mobile:
-    build:
-      context: ./CashManagerFront
-    volumes:
-      - ./CashManagerFront:/app
-    networks:
-      - network
+  # mobile:
+  #  build:
+  #    context: ./CashManagerFront
+  #  volumes:
+  #    - ./CashManagerFront:/app
+  #  networks:
+  #    - network
 
 volumes:
   shared_data:
