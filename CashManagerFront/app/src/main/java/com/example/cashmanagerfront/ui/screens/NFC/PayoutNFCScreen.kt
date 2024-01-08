@@ -35,9 +35,9 @@ import com.example.cashmanagerfront.ui.navigation.Routes
 
 @Composable
 fun PayoutNFCScreen(navController: NavHostController, total: String) {
-    var viewModel: TransactionViewModel = TransactionViewModel()
-
     val context: Context = LocalContext.current
+    var viewModel: TransactionViewModel = TransactionViewModel(context = context)
+
     val nfcAdapter = NfcAdapter.getDefaultAdapter(context)
     val stateOfPaiement = remember {
         mutableStateOf(StateOfPaiement.INITIAL_NFC)
@@ -104,7 +104,7 @@ fun PayoutNFCScreen(navController: NavHostController, total: String) {
             if (stateOfPaiement.value == StateOfPaiement.ACCEPTED) {
                 TextButton(onClick = {
                     navController.navigate(Routes.SHOP_SCREEN) {
-                        popUpTo(Routes.SPLASH_SCREEN) {
+                        popUpTo(Routes.SHOP_SCREEN) {
                             inclusive = true
                         }
                     }

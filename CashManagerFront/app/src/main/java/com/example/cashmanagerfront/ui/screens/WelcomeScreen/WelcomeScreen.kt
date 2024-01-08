@@ -40,7 +40,6 @@ fun WelcomeScreen(navController: NavHostController) {
             Text(text = "Name : ${viewModel.name.value}", color = Color.White)
             Text(text = "Password : ${viewModel.password.value}", color = Color.White)
             TextButton(onClick = {
-                    println(viewModel.password.value + " "+ viewModel.name.value)
                     viewModel.createUser(context = context)
             }) {
                 Text(text = "Valider")
