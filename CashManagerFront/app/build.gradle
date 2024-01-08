@@ -20,8 +20,24 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file('./CashMaster.jks')
+            storePassword 'CashMaster'
+            keyAlias 'CashMaster'
+            keyPassword 'CashMaster'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "CashMaster-${variant.versionCode}-${variant.versionName}.apk"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
