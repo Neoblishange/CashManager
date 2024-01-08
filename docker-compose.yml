@@ -32,7 +32,6 @@ services:
       context: ./CashManagerFront
     volumes:
       - ./CashManagerFront:/app
-    command: sh -c "./gradlew clean assembleDebug"
     networks:
       - network
 

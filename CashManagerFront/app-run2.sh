@@ -1,13 +1,9 @@
 #!/bin/bash
-
-# Répertoire du projet
-PROJECT_DIR="/app/CashManagerFront"
-
 apt-get update && apt-get install -y dos2unix
 dos2unix app-run.sh
 
 # Se déplacer dans le répertoire du projet
-cd "$PROJECT_DIR"
+cd ./app
 
 # Télécharger les dépendances
 ./gradlew downloadDependencies
