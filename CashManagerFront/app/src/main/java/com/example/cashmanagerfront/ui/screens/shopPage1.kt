@@ -77,7 +77,7 @@ fun ShopPage1(navController: NavHostController) {
         Article("Confiture", 29.99),
         Article("Sucre", 14.99),
         Article("Fraises", 16.99),
-        Article("Sel", 4.99),
+        Article("Sel", 100.00),
         Article("Lait", 5.00),
         Article("Levure", 24.99)
     ) }

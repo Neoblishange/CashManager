@@ -36,11 +36,7 @@ class TransactionViewModel(context: Context): ViewModel() {
                     stateOfPaiement.value = StateOfPaiement.ACCEPTED
                 } else {
                     stateOfPaiement.value = StateOfPaiement.REFUSED
-
-                    val res: String? = response.errorBody()!!.string()
-                    val json = JsonParser().parse(res)
-                    val dataValue = json.asJsonObject.get("data").asString
-                    Toast.makeText(context, dataValue, Toast.LENGTH_SHORT).show()                }
+              }
             }
 
             override fun onFailure(call: Call<Data?>?, t: Throwable) {

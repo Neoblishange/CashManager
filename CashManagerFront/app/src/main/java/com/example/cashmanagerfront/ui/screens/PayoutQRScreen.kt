@@ -208,14 +208,7 @@ fun qrCodeScannerComposeTheme(stateOfPaiement: MutableState<StateOfPaiement>, to
                     .height(250.dp)
                     .align(alignment = Alignment.CenterHorizontally)
             )
-//            Text(text = code,
-//                fontSize = 20.sp,
-//                fontWeight = FontWeight.Bold,
-//                color =  Color.White,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(32.dp)
-//            )
+
         }
 
 
